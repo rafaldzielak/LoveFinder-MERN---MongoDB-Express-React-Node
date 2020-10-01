@@ -1,18 +1,26 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
+import { registerUser } from "../../actions/auth";
+import PropTypes from "prop-types";
 
-const Register = () => {
+export const Register = ({ registerUser }) => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
     pasword2: "",
   });
-
+  const { name, email, password, password2 } = formData;
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const { email, password, password2 } = formData;
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    console.log(email);
+    console.log(password);
+    registerUser({ name, email, password });
+  };
 
   return (
     <Fragment>
@@ -21,7 +29,20 @@ const Register = () => {
       <h2 className='border-bottom'>Register and find True Love</h2>
       <h5>Thousands of people are waiting for You!</h5>
       <div className='row container'>
-        <form className='col s12'>
+        <form className='col s12' onSubmit={(e) => onSubmit(e)}>
+          <div className='row'>
+            <div className='input-field col s12'>
+              <input
+                id='name'
+                type='text'
+                className='validate white-text '
+                name='name'
+                value={name}
+                onChange={(e) => onChange(e)}
+              />
+              <label htmlFor='name'>Name</label>
+            </div>
+          </div>
           <div className='row'>
             <div className='input-field col s12'>
               <input
@@ -61,17 +82,20 @@ const Register = () => {
               <label htmlFor='password'>Confirm password</label>
             </div>
           </div>
-          <button
-            class='btn btn-large waves-effect blue darken-3'
+          {/* <input type='submit' className='btn btn-primary' value='Register' /> */}
+          <input
             type='submit'
-            name='action'
-          >
-            Register
-          </button>
+            className='btn btn-large blue darken-3'
+            value='Register'
+          />
         </form>
       </div>
     </Fragment>
   );
 };
 
-export default Register;
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+};
+
+export default connect(null, { registerUser })(Register);
