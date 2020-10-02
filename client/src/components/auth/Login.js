@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
-import {  loginUser } from "../../actions/auth";
+import { loginUser } from "../../actions/auth";
 import PropTypes from "prop-types";
 import Alert from "../layout/Alert";
 import { setAlert } from "../../actions/alert";

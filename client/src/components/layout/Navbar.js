@@ -1,7 +1,30 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { logout } from "../../actions/auth";
+import { connect } from "react-redux";
 
-export const Navbar = () => {
+export const Navbar = ({ logout, auth }) => {
+  const authLinks = (
+    <li>
+      <a href='#!' onClick={() => logout()}>
+        Logout
+      </a>
+    </li>
+  );
+
+  const guestLinks = (
+    <Fragment>
+      <li>
+        <Link to='/register'>Register</Link>
+      </li>
+      <li>
+        <Link to='/login'>Login</Link>
+      </li>
+    </Fragment>
+  );
+
+  console.log(auth.loading);
+
   return (
     <Fragment>
       <nav>
@@ -11,14 +34,8 @@ export const Navbar = () => {
               LoveFinder
             </Link>
           </div>
-
           <ul id='nav-mobile' className='right hide-on-med-and-down'>
-            <li>
-              <Link to='/register'>Register</Link>
-            </li>
-            <li>
-              <Link to='/login'>Login</Link>
-            </li>
+            {!auth.loading && auth.isAuthenticated ? authLinks : guestLinks}
           </ul>
         </div>
       </nav>
@@ -26,4 +43,8 @@ export const Navbar = () => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);
