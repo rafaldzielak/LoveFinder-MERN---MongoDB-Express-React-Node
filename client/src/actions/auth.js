@@ -1,6 +1,24 @@
 import React from "react";
-import { REGISTER_SUCCESS, LOGIN_SUCCESS } from "./types";
+import {
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  USER_LOADED,
+  AUTH_ERROR,
+} from "./types";
 import axios from "axios";
+import setAuthToken from "../utils/setAuthToken";
+import { setAlert } from "./alert";
+
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.getItem("token"))
+    setAuthToken(localStorage.getItem("token"));
+  try {
+    const res = await axios.get("api/auth");
+    dispatch({ type: USER_LOADED, payload: res.data });
+  } catch (error) {
+    dispatch({ type: AUTH_ERROR });
+  }
+};
 
 export const registerUser = ({ name, email, password, history }) => async (
   dispatch
@@ -13,15 +31,12 @@ export const registerUser = ({ name, email, password, history }) => async (
     dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     history.push("/");
   } catch (error) {
-    // const errors = error.response.data.errors;
-    console.log(error);
-    // errors.forEach((err) => console.log(err));
+    const errors = error.response.data.errors;
+    errors.forEach((err) => console.log(err));
   }
 };
 
-export const loginUser = ({ email, password, history }) => async (
-  dispatch
-) => {
+export const loginUser = ({ email, password, history }) => async (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const body = JSON.stringify({ email, password });
   try {
@@ -30,9 +45,8 @@ export const loginUser = ({ email, password, history }) => async (
     dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     history.push("/");
   } catch (error) {
-    // const errors = error.response.data.errors;
-    console.log(error);
-    // errors.forEach((err) => console.log(err));
+    const errors = error.response.data.errors;
+
+    errors.forEach((err) => dispatch(setAlert(err.msg, "danger")));
   }
 };
-
