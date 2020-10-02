@@ -32,7 +32,7 @@ export const registerUser = ({ name, email, password, history }) => async (
     history.push("/");
   } catch (error) {
     const errors = error.response.data.errors;
-    errors.forEach((err) => console.log(err));
+    errors.forEach((err) => dispatch(setAlert(err.msg, "danger")));
   }
 };
 
