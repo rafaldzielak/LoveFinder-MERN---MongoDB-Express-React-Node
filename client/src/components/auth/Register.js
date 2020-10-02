@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { registerUser } from "../../actions/auth";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
+import Alert from "../layout/Alert";
+import { setAlert } from "../../actions/alert";
 
-export const Register = ({ registerUser, history }) => {
+export const Register = ({ registerUser, setAlert, history }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,11 +19,12 @@ export const Register = ({ registerUser, history }) => {
   };
 
   const onSubmit = async (e) => {
-    if (password !== password2) {
-      console.log("Passwords do not match");
-    }
     e.preventDefault();
-    registerUser({ name, email, password, history });
+    if (password !== password2) {
+      setAlert({ msg: "Passwords do not match", alertType: "danger" });
+    } else {
+      registerUser({ name, email, password, history });
+    }
   };
 
   return (
@@ -30,6 +33,7 @@ export const Register = ({ registerUser, history }) => {
       <br />
       <h2 className='border-bottom'>Register and find True Love</h2>
       <h5>Thousands of people are waiting for You!</h5>
+      <Alert />
       <div className='row container'>
         <form className='col s12' onSubmit={(e) => onSubmit(e)}>
           <div className='row'>
@@ -100,4 +104,4 @@ Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
 };
 
-export default connect(null, { registerUser })(Register);
+export default connect(null, { registerUser, setAlert })(Register);

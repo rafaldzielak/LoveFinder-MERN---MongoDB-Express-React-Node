@@ -113,6 +113,22 @@ nav ul a {
   font-size: 1.2rem;
 }
 
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: #555555;
+  color: #333;
+}
+.alert-danger {
+  background: #d32f2f ;
+  color: #fff;
+}
+.alert-success {
+  background: #43a047 ;
+  color: #fff;
+}
+
 .flex-rewind {
   display: flex;
 }
