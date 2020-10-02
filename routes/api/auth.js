@@ -20,6 +20,9 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
+// @route   POST api/auth
+// @desc    Login user
+// @access  Public
 router.post(
   "/",
   [

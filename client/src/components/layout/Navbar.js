@@ -1,26 +1,29 @@
-import React, { Fragment } from 'react'
-import {Link} from 'react-router-dom'
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
     <Fragment>
-      <div class="upper-flex">
+      <nav>
+        <div className='nav-wrapper blue-grey darken-3'>
+          <div className='left'>
+            <Link to='/' className='brand-logo'>
+              LoveFinder
+            </Link>
+          </div>
 
-          <input type="hidden" name="startid" value="" class="delete-one" />
-
-          <input type="submit" value="Delete This User" class="btn-light alert-confirm"/>
-
-          <button class="btn-light alert-confirm" type="submit"> Delete All Users
-          </button>
-
-          <button class="btn-light" type="submit"> Add User </button>
-
-        <a href="login" class="btn-light">Log In</a>
-          <button class="btn-light show-liked"> Show Liked </button>
-      </div>
-      
+          <ul id='nav-mobile' className='right hide-on-med-and-down'>
+            <li>
+              <Link to='/register'>Register</Link>
+            </li>
+            <li>
+              <Link to='/login'>Login</Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </Fragment>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

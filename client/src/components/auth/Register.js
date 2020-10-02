@@ -2,8 +2,9 @@ import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/auth";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 
-export const Register = ({ registerUser }) => {
+export const Register = ({ registerUser, history }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,10 +17,11 @@ export const Register = ({ registerUser }) => {
   };
 
   const onSubmit = async (e) => {
+    if (password !== password2) {
+      console.log("Passwords do not match");
+    }
     e.preventDefault();
-    console.log(email);
-    console.log(password);
-    registerUser({ name, email, password });
+    registerUser({ name, email, password, history });
   };
 
   return (

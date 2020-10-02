@@ -25,6 +25,10 @@ const ProfileSchema = mongoose.Schema({
     type: String,
     default: "",
   },
+  likedBy: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("profile", ProfileSchema);

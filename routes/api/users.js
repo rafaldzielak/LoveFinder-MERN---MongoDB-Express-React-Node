@@ -12,7 +12,7 @@ const jwt = require("jsonwebtoken");
 router.get("/", (req, res) => res.send("ROuter Get users"));
 
 // REGISTRATION
-// @route   GET api/users
+// @route   POST api/users
 // @desc    Register new user
 // @access  Public
 router.post(
