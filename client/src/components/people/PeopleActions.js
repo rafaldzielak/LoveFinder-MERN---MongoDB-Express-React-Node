@@ -17,10 +17,6 @@ export const PeopleActions = () => {
           {" "}
           Add User{" "}
         </button>
-        <button className='btn-light show-liked'> Log In </button>
-        <Link to='/register'>
-          <button className='btn-light show-liked'>Register</button>
-        </Link>
         <button className='btn-light show-liked'> Show Liked </button>
       </div>
     </Fragment>

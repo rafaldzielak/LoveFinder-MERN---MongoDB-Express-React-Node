@@ -23,8 +23,6 @@ export const Navbar = ({ logout, auth }) => {
     </Fragment>
   );
 
-  console.log(auth.loading);
-
   return (
     <Fragment>
       <nav>

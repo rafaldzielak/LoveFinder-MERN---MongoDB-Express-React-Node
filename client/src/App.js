@@ -8,6 +8,7 @@ import Login from "./components/auth/Login";
 import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
+import ProfileForm from "./components/profile/ProfileForm";
 // import PeopleActions from "./components/people/PeopleActions";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
               <Route exact path='/' component={Landing} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/profile' component={ProfileForm} />
             </Switch>
           </Fragment>
         </div>
