@@ -5,11 +5,16 @@ import { connect } from "react-redux";
 
 export const Navbar = ({ logout, auth }) => {
   const authLinks = (
-    <li>
-      <a href='#!' onClick={() => logout()}>
-        Logout
-      </a>
-    </li>
+    <Fragment>
+      <li>
+        <Link to='/profile'>My Profile</Link>
+      </li>
+      <li>
+        <a href='#!' onClick={() => logout()}>
+          Logout
+        </a>
+      </li>
+    </Fragment>
   );
 
   const guestLinks = (

@@ -21,7 +21,7 @@ export const Register = ({ registerUser, setAlert, history }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert("Passwords do not match", "danger" );
+      setAlert("Passwords do not match", "danger");
     } else {
       registerUser({ name, email, password, history });
     }
@@ -46,6 +46,7 @@ export const Register = ({ registerUser, setAlert, history }) => {
                 value={name}
                 onChange={(e) => onChange(e)}
               />
+
               <label htmlFor='name'>Name</label>
             </div>
           </div>
