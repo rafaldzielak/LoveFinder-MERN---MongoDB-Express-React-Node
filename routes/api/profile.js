@@ -50,7 +50,7 @@ router.get("/me", authMiddleware, async (req, res) => {
 });
 
 // @route   POST api/profile
-// @desc    Create profiles
+// @desc    Create & update profile
 // @access  Private
 router.post(
   "/",
@@ -59,7 +59,8 @@ router.post(
     [
       check("name", "Name is required").not().isEmpty(),
       check("age", "Age is required").isNumeric(),
-      check("preference", "Preference is required").not().isEmpty(),
+      check("preferenceMale", "Preference is required").not().isEmpty(),
+      check("preferenceFemale", "Preference is required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -67,7 +68,15 @@ router.post(
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() });
     try {
-      const { name, photo, age, description, preference, likedBy } = req.body;
+      const {
+        name,
+        photo,
+        age,
+        description,
+        preferenceMale,
+        preferenceFemale,
+        likedBy,
+      } = req.body;
       console.log(req.user.id);
       const userId = req.user.id;
       const profileFields = {};
@@ -75,7 +84,8 @@ router.post(
       if (photo) profileFields.photo = photo;
       if (name) profileFields.name = name;
       if (age) profileFields.age = age;
-      if (preference) profileFields.preference = preference;
+      if (preferenceMale) profileFields.preferenceMale = preferenceMale;
+      if (preferenceFemale) profileFields.preferenceFemale = preferenceFemale;
       if (description) profileFields.description = description;
       if (likedBy) profileFields.likedBy = likedBy;
       let profile = await Profile.findOne({ user: userId });

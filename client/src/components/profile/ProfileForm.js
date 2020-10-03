@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { createProfile } from "../../actions/profile";
+import { createProfile, getProfile } from "../../actions/profile";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import Alert from "../layout/Alert";
@@ -9,39 +9,69 @@ import { setAlert } from "../../actions/alert";
 export const ProfileForm = ({
   createProfile,
   getProfile,
-  setAlert,
   history,
   auth,
+  profile: { profile, loading },
 }) => {
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    preference: { male: false, female: false },
+    preferenceMale: false,
+    preferenceFemale: false,
     photo: "",
     description: "",
   });
-  const { name, age, preference, photo, description } = formData;
+
+  const {
+    name,
+    age,
+    preferenceMale,
+    preferenceFemale,
+    photo,
+    description,
+  } = formData;
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      getProfile();
+      if (profile) {
+        setFormData({
+          name: loading || !profile.name ? "" : profile.name,
+          age: loading || !profile.age ? "" : profile.age,
+          preferenceMale:
+            loading || !profile.preferenceMale ? "" : profile.preferenceMale,
+          preferenceFemale:
+            loading || !profile.preferenceFemale
+              ? ""
+              : profile.preferenceFemale,
+          photo: loading || !profile.photo ? "" : profile.photo,
+          description:
+            loading || !profile.description ? "" : profile.description,
+        });
+      }
+    }
+  }, [loading]);
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    createProfile({ name, age, preference, photo, description });
+    createProfile({
+      name,
+      age,
+      preferenceMale,
+      preferenceFemale,
+      photo,
+      description,
+    });
   };
 
   const toggleMale = () => {
-    setFormData({
-      ...formData,
-      preference: { ...preference, male: !preference.male },
-    });
+    setFormData({ ...formData, preferenceMale: !preferenceMale });
   };
   const toggleFemale = () => {
-    setFormData({
-      ...formData,
-      preference: { ...preference, female: !preference.female },
-    });
+    setFormData({ ...formData, preferenceFemale: !preferenceFemale });
   };
 
   if (!auth.isAuthenticated) {
@@ -66,7 +96,9 @@ export const ProfileForm = ({
                   value={name}
                   onChange={(e) => onChange(e)}
                 />
-                <label htmlFor='name'>Name</label>
+                <label className='active' htmlFor='name'>
+                  Name
+                </label>
               </div>
             </div>
             <div className='row'>
@@ -81,7 +113,9 @@ export const ProfileForm = ({
                   max='99'
                   onChange={(e) => onChange(e)}
                 />
-                <label htmlFor='age'>Age</label>
+                <label className='active' htmlFor='age'>
+                  Age
+                </label>
               </div>
             </div>
             <div className='row'>
@@ -96,7 +130,9 @@ export const ProfileForm = ({
                     <span>Female</span>
                   </label>
                 </p>
-                <label htmlFor='preference'>Preference: </label>
+                <label className='active' htmlFor='preference'>
+                  Preference:{" "}
+                </label>
               </div>
             </div>
             <div className='row'>
@@ -109,7 +145,9 @@ export const ProfileForm = ({
                   value={photo}
                   onChange={(e) => onChange(e)}
                 />
-                <label htmlFor='photo'>Photo URL</label>
+                <label className='active' htmlFor='photo'>
+                  Photo URL
+                </label>
               </div>
             </div>
             <div className='row'>
@@ -117,13 +155,15 @@ export const ProfileForm = ({
                 <div className='row'>
                   <div className='input-field col s12'>
                     <textarea
-                      id='textarea1'
+                      id='description'
                       className='materialize-textarea white-text'
                       name='description'
                       value={description}
                       onChange={(e) => onChange(e)}
                     ></textarea>
-                    <label htmlFor='textarea1'>Textarea</label>
+                    <label className='active' htmlFor='description'>
+                      Description
+                    </label>
                   </div>
                 </div>
               </form>
@@ -143,12 +183,18 @@ export const ProfileForm = ({
 
 ProfileForm.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
+  getProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { createProfile, setAlert })(
-  ProfileForm
-);
+export default connect(mapStateToProps, {
+  createProfile,
+  setAlert,
+  getProfile,
+})(ProfileForm);

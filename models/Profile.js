@@ -13,8 +13,12 @@ const ProfileSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  preference: {
-    type: String,
+  preferenceMale: {
+    type: Boolean,
+    required: true,
+  },
+  preferenceFemale: {
+    type: Boolean,
     required: true,
   },
   photo: {
