@@ -10,6 +10,8 @@ import {
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import { setAlert } from "./alert";
+import { Redirect } from "react-router-dom";
+import { getProfiles } from "./profile";
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.getItem("token")) {
@@ -57,4 +59,5 @@ export const loginUser = ({ email, password, history }) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
   dispatch({ type: CLEAR_PROFILE });
+  dispatch(getProfiles())
 };
