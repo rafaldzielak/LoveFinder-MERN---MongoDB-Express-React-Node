@@ -18,7 +18,6 @@ export const People = ({
   );
   useEffect(() => {
     getProfiles();
-    console.log(auth);
   }, [getProfiles]);
 
   useEffect(() => {
@@ -28,17 +27,13 @@ export const People = ({
   }, [auth.loading]);
 
   useEffect(() => {
-    console.log("load changes");
     setMatchingProfiles(
       profiles.filter((checkProfile, index) => {
-        console.log(checkProfile);
         if (checkProfile.sex === "male" && profile.preferenceMale === true)
           return true;
       })
     );
-    console.log(profiles);
-    console.log(matchingProfiles);
-  }, [loading, profiles]);
+  }, [loading, profile]);
 
   let [profileNumber, setProfileNumber] = useState(0);
 
@@ -73,8 +68,6 @@ export const People = ({
       <p id='previous-btn' onClick={(e) => previousProfileMatch()}>
         <i className='fas fa-chevron-left fa-5x'></i>
       </p>
-      {console.log("PROFS")}
-      {console.log(profs)}
 
       <div className='inside'>
         <br />
