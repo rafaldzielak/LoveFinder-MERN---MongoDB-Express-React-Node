@@ -13,6 +13,10 @@ const ProfileSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  sex: {
+    type: String,
+    required: true,
+  },
   preferenceMale: {
     type: Boolean,
     required: true,

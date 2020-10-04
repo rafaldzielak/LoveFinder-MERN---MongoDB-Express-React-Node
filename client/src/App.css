@@ -25,8 +25,8 @@
   color: #fff;
 }
 
-
-.checkbox{
+.checkbox,
+.radio {
   margin: 1rem 75px 0px 0px;
 }
 
@@ -118,8 +118,6 @@ nav ul a {
   font-size: 1.2rem;
 }
 
-
-
 .alert {
   padding: 0.8rem;
   margin: 1rem 0;
@@ -128,11 +126,11 @@ nav ul a {
   color: #333;
 }
 .alert-danger {
-  background: #d32f2f ;
+  background: #d32f2f;
   color: #fff;
 }
 .alert-success {
-  background: #43a047 ;
+  background: #43a047;
   color: #fff;
 }
 
@@ -143,13 +141,14 @@ nav ul a {
 .inside {
   flex: 5;
   padding: 0px 2rem 2rem 2rem;
-  max-width: 500px;
+  max-width: 600px;
 
   margin: auto;
   border: solid 2px;
   border-radius: 20px;
   background: #333;
-  min-height: 820px;
+  min-height: 75vh;
+  max-height: 900px;
   transition-property: background, color;
   transition: 0.5s ease-in-out;
 }
@@ -208,6 +207,21 @@ body {
   line-height: 4rem;
   font-size: 2rem;
 }
+#age {
+  line-height: 2rem;
+  font-size: 1.5rem;
+}
+.about {
+  line-height: 2rem;
+  font-size: 1.4rem;
+  color: #1e90ff;
+  padding-bottom: 1rem;
+}
+#description {
+  line-height: 2rem;
+  font-size: 1.2rem;
+  text-align: justify;
+}
 
 footer {
   margin-top: 2rem;
@@ -226,9 +240,17 @@ footer {
   color: #1565c0;
 }
 
+#img-main {
+  height: 450px;
+  max-width: 500px;
+  object-fit: contain;
+  border-bottom: solid 2px #1e90ff;
+}
+
 .img-relative {
   position: relative;
-  display: inline-block;
+  /* display: inline-block; */
+  display: inline;
 }
 
 .img-relative .heart-icon {

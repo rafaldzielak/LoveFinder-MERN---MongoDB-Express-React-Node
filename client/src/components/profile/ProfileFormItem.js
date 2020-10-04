@@ -6,9 +6,8 @@ import { Redirect } from "react-router-dom";
 import Alert from "../layout/Alert";
 import { setAlert } from "../../actions/alert";
 
-export const ProfileForm = ({
+export const ProfileFormItem = ({
   createProfile,
-  getProfile,
   history,
   auth,
   profile: { profile, loading },
@@ -16,7 +15,6 @@ export const ProfileForm = ({
   const [formData, setFormData] = useState({
     name: "",
     age: "",
-    sex: "",
     preferenceMale: false,
     preferenceFemale: false,
     photo: "",
@@ -26,27 +24,12 @@ export const ProfileForm = ({
   const {
     name,
     age,
-    sex,
     preferenceMale,
     preferenceFemale,
     photo,
     description,
   } = formData;
 
-  useEffect(() => {
-    getProfile();
-    console.log(profile);
-    setFormData({
-      name: loading || !profile.name ? "" : profile.name,
-      age: loading || !profile.age ? "" : profile.age,
-      preferenceMale:
-        loading || !profile.preferenceMale ? "" : profile.preferenceMale,
-      preferenceFemale:
-        loading || !profile.preferenceFemale ? "" : profile.preferenceFemale,
-      photo: loading || !profile.photo ? "" : profile.photo,
-      description: loading || !profile.description ? "" : profile.description,
-    });
-  }, [getProfile, loading]);
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -56,7 +39,6 @@ export const ProfileForm = ({
     createProfile({
       name,
       age,
-      sex,
       preferenceMale,
       preferenceFemale,
       photo,
@@ -71,15 +53,12 @@ export const ProfileForm = ({
     setFormData({ ...formData, preferenceFemale: !preferenceFemale });
   };
 
-  const setGender = (e) => {
-    setFormData({ ...formData, sex: e.target.value });
-  };
-
   // if (!loading && !auth.isAuthenticated) {
   // return <Redirect to='/'></Redirect>;
   // } else
   return (
     <Fragment>
+      {console.log("DUPA2")}
       {loading ? (
         <div>LOADING</div>
       ) : (
@@ -123,38 +102,6 @@ export const ProfileForm = ({
                   </label>
                 </div>
               </div>
-
-              <div className='row'>
-                <div
-                  className='input-field col s12'
-                  onChange={(e) => setGender(e)}
-                >
-                  <p>
-                    <label>
-                      <input
-                        name='sex'
-                        type='radio'
-                        value='male'
-                        //checked={sex === "male"}
-                      />
-                      <span className='radio'>Male</span>
-                    </label>
-                    <label>
-                      <input
-                        name='sex'
-                        type='radio'
-                        value='female'
-                        //checked={sex === "female"}
-                      />
-                      <span>Female</span>
-                    </label>
-                  </p>
-                  <label className='active' htmlFor='sex'>
-                    Sex:{" "}
-                  </label>
-                </div>
-              </div>
-
               <div className='row'>
                 <div className='input-field col s12'>
                   <p>
@@ -172,7 +119,6 @@ export const ProfileForm = ({
                   </label>
                 </div>
               </div>
-
               <div className='row'>
                 <div className='input-field col s12'>
                   <input
@@ -221,20 +167,5 @@ export const ProfileForm = ({
   );
 };
 
-ProfileForm.propTypes = {
-  createProfile: PropTypes.func.isRequired,
-  setAlert: PropTypes.func.isRequired,
-  getProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
-};
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  profile: state.profile,
-});
-
-export default connect(mapStateToProps, {
-  createProfile,
-  setAlert,
-  getProfile,
-})(ProfileForm);
+export default ProfileFormItem

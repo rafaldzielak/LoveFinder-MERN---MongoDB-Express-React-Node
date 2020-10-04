@@ -59,6 +59,7 @@ router.post(
     [
       check("name", "Name is required").not().isEmpty(),
       check("age", "Age is required").isNumeric(),
+      check("sex", "Sex must be either 'male' or 'female'").isString(),
       check("preferenceMale", "Preference is required").not().isEmpty(),
       check("preferenceFemale", "Preference is required").not().isEmpty(),
     ],
@@ -72,6 +73,7 @@ router.post(
         name,
         photo,
         age,
+        sex,
         description,
         preferenceMale,
         preferenceFemale,
@@ -84,6 +86,7 @@ router.post(
       if (photo) profileFields.photo = photo;
       if (name) profileFields.name = name;
       if (age) profileFields.age = age;
+      if (sex) profileFields.sex = sex;
       if (preferenceMale) profileFields.preferenceMale = preferenceMale;
       if (preferenceFemale) profileFields.preferenceFemale = preferenceFemale;
       if (description) profileFields.description = description;

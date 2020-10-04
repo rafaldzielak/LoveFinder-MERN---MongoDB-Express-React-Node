@@ -6,12 +6,14 @@ import {
   CLEAR_PROFILE,
   GET_PROFILE,
   PROFILE_ERROR,
+  GET_PROFILES,
   SET_LOADING,
 } from "./types";
 
 export const createProfile = ({
   name,
   age,
+  sex,
   preferenceMale,
   preferenceFemale,
   photo,
@@ -21,6 +23,7 @@ export const createProfile = ({
     const body = {
       name,
       age,
+      sex,
       preferenceMale,
       preferenceFemale,
       photo,
@@ -41,8 +44,25 @@ export const getProfile = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: error.response.statusText,
-      status: error.response.status,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const getProfiles = () => async (dispatch) => {
+  try {
+    const res = await axios.get("api/profile");
+    dispatch({ type: GET_PROFILES, payload: res.data });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
     });
   }
 };

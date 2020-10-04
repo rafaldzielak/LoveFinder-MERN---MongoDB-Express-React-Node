@@ -9,7 +9,11 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
 import ProfileForm from "./components/profile/ProfileForm";
+import setAuthToken from "./utils/setAuthToken";
 // import PeopleActions from "./components/people/PeopleActions";
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 function App() {
   useEffect(() => {
