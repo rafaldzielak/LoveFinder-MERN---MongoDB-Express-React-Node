@@ -44,6 +44,7 @@ export const ProfileForm = ({
         ...formData,
         name: loading || !profile.name ? "" : profile.name,
         age: loading || !profile.age ? "" : profile.age,
+        sex: loading || !profile.sex ? "" : profile.sex,
         preferenceMale:
           loading || !profile.preferenceMale ? "" : profile.preferenceMale,
         preferenceFemale:
@@ -141,7 +142,7 @@ export const ProfileForm = ({
                         name='sex'
                         type='radio'
                         value='male'
-                        //checked={sex === "male"}
+                        checked={sex === "male"}
                       />
                       <span className='radio'>Male</span>
                     </label>
@@ -150,7 +151,7 @@ export const ProfileForm = ({
                         name='sex'
                         type='radio'
                         value='female'
-                        //checked={sex === "female"}
+                        checked={sex === "female"}
                       />
                       <span>Female</span>
                     </label>

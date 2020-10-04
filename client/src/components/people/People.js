@@ -35,9 +35,21 @@ export const People = ({
   useEffect(() => {
     if (profile) {
       setMatchingProfiles(
-        profiles.filter((checkProfile, index) => {
-          if (checkProfile.sex === "male" && profile.preferenceMale === true)
+        profiles.filter((p, index) => {
+          if (
+            (p.sex === "male" &&
+              profile.preferenceMale === true &&
+              (profile.sex === "male"
+                ? p.preferenceMale
+                : p.preferenceFemale)) ||
+            (p.sex === "female" &&
+              profile.preferenceFemale === true &&
+              (profile.sex === "female"
+                ? p.preferenceFemale
+                : p.preferenceMale))
+          ) {
             return true;
+          }
         })
       );
     }
