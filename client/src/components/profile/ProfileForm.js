@@ -23,6 +23,10 @@ export const ProfileForm = ({
     description: "",
   });
 
+  const questions = profile;
+
+  // getDerivedStateFromProps();
+
   const {
     name,
     age,
@@ -34,9 +38,9 @@ export const ProfileForm = ({
   } = formData;
 
   useEffect(() => {
-    getProfile();
-    console.log(profile);
+    if (!profile.name) getProfile();
     setFormData({
+      ...formData,
       name: loading || !profile.name ? "" : profile.name,
       age: loading || !profile.age ? "" : profile.age,
       preferenceMale:
@@ -46,7 +50,7 @@ export const ProfileForm = ({
       photo: loading || !profile.photo ? "" : profile.photo,
       description: loading || !profile.description ? "" : profile.description,
     });
-  }, [getProfile, loading]);
+  }, [getProfile, loading, auth]);
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -98,7 +102,7 @@ export const ProfileForm = ({
                     type='text'
                     className='validate white-text '
                     name='name'
-                    value={name}
+                    value={profile.name}
                     onChange={(e) => onChange(e)}
                   />
                   <label className='active' htmlFor='name'>
