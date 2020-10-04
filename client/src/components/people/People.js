@@ -11,9 +11,15 @@ export const People = ({
   auth,
 }) => {
   const [matchingProfiles, setMatchingProfiles] = useState(
-    profiles.filter((checkProfile) => {
-      if (checkProfile.sex === "male" && profile.preferenceMale === true)
-        return true;
+    profiles.filter((p) => {
+      if (profile) {
+        if (
+          (p.sex === "male" && profile.preferenceMale) ||
+          (p.sex === "female" && profile.preferenceFemale)
+        ) {
+          return true;
+        }
+      }
     })
   );
   useEffect(() => {
@@ -27,12 +33,14 @@ export const People = ({
   }, [auth.loading]);
 
   useEffect(() => {
-    setMatchingProfiles(
-      profiles.filter((checkProfile, index) => {
-        if (checkProfile.sex === "male" && profile.preferenceMale === true)
-          return true;
-      })
-    );
+    if (profile) {
+      setMatchingProfiles(
+        profiles.filter((checkProfile, index) => {
+          if (checkProfile.sex === "male" && profile.preferenceMale === true)
+            return true;
+        })
+      );
+    }
   }, [loading, profile]);
 
   let [profileNumber, setProfileNumber] = useState(0);
@@ -71,6 +79,17 @@ export const People = ({
         <p id='age'></p>
         <p className='about'>About me:</p>
         <p id='description'>{profs[profileNumber].description}</p>
+        <p id='description'>
+          Gender: {profs[profileNumber].sex === "male" ? "male" : "female"}
+        </p>
+        <p id='description'>
+          PreferenceMale:{" "}
+          {profs[profileNumber].preferenceMale ? "true" : "false"}
+        </p>
+        <p id='description'>
+          PreferenceFemale:{" "}
+          {profs[profileNumber].preferenceFemale ? "true" : "false"}
+        </p>
       </div>
       <p id='next-btn' onClick={(e) => nextProfile(profs)}>
         <i className='fas fa-chevron-right fa-5x'></i>

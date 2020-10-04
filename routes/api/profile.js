@@ -60,8 +60,6 @@ router.post(
       check("name", "Name is required").not().isEmpty(),
       check("age", "Age is required").isNumeric(),
       check("sex", "Sex must be either 'male' or 'female'").isString(),
-      check("preferenceMale", "Preference is required").not().isEmpty(),
-      check("preferenceFemale", "Preference is required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -87,12 +85,13 @@ router.post(
       if (name) profileFields.name = name;
       if (age) profileFields.age = age;
       if (sex) profileFields.sex = sex;
-      if (preferenceMale) profileFields.preferenceMale = preferenceMale;
-      if (preferenceFemale) profileFields.preferenceFemale = preferenceFemale;
+      if (preferenceMale) profileFields.preferenceMale = true;
+      else profileFields.preferenceMale = false;
+      if (preferenceFemale) profileFields.preferenceFemale = true;
+      else profileFields.preferenceFemale = false;
       if (description) profileFields.description = description;
       if (likedBy) profileFields.likedBy = likedBy;
       let profile = await Profile.findOne({ user: userId });
-      console.log(profile);
       if (profile) {
         profile = await Profile.findOneAndUpdate(
           { user: userId },
@@ -100,6 +99,7 @@ router.post(
           { new: true }
         );
         Profile.findByIdAndUpdate();
+        console.log(profile);
         return res.json(profile);
       }
       profile = new Profile(profileFields);

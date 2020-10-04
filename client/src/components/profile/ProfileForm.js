@@ -38,18 +38,20 @@ export const ProfileForm = ({
   } = formData;
 
   useEffect(() => {
-    if (!profile.name) getProfile();
-    setFormData({
-      ...formData,
-      name: loading || !profile.name ? "" : profile.name,
-      age: loading || !profile.age ? "" : profile.age,
-      preferenceMale:
-        loading || !profile.preferenceMale ? "" : profile.preferenceMale,
-      preferenceFemale:
-        loading || !profile.preferenceFemale ? "" : profile.preferenceFemale,
-      photo: loading || !profile.photo ? "" : profile.photo,
-      description: loading || !profile.description ? "" : profile.description,
-    });
+    if (profile) {
+      if (!profile.name) getProfile();
+      setFormData({
+        ...formData,
+        name: loading || !profile.name ? "" : profile.name,
+        age: loading || !profile.age ? "" : profile.age,
+        preferenceMale:
+          loading || !profile.preferenceMale ? "" : profile.preferenceMale,
+        preferenceFemale:
+          loading || !profile.preferenceFemale ? "" : profile.preferenceFemale,
+        photo: loading || !profile.photo ? "" : profile.photo,
+        description: loading || !profile.description ? "" : profile.description,
+      });
+    }
   }, [getProfile, loading, auth]);
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -102,7 +104,7 @@ export const ProfileForm = ({
                     type='text'
                     className='validate white-text '
                     name='name'
-                    value={profile.name}
+                    value={name}
                     onChange={(e) => onChange(e)}
                   />
                   <label className='active' htmlFor='name'>
@@ -163,11 +165,19 @@ export const ProfileForm = ({
                 <div className='input-field col s12'>
                   <p>
                     <label>
-                      <input type='checkbox' onClick={(e) => toggleMale()} />
+                      <input
+                        checked={preferenceMale}
+                        type='checkbox'
+                        onChange={(e) => toggleMale()}
+                      />
                       <span className='checkbox'>Male</span>
                     </label>
                     <label>
-                      <input type='checkbox' onClick={(e) => toggleFemale()} />
+                      <input
+                        checked={preferenceFemale}
+                        type='checkbox'
+                        onChange={(e) => toggleFemale()}
+                      />
                       <span>Female</span>
                     </label>
                   </p>

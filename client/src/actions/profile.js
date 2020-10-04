@@ -33,6 +33,7 @@ export const createProfile = ({
     await axios.post("/api/profile", body, config);
     dispatch(setAlert("Profile updated", "success"));
   } catch (error) {
+    console.log(error);
     const errors = error.response.data.errors;
     errors.map((error) => dispatch(setAlert(error.msg, "danger")));
   }
