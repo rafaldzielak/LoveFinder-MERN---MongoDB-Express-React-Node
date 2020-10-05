@@ -77,12 +77,8 @@ export const People = ({
       </p>
       <div className='inside'>
         <br />
-        <br />
-        <div className='img-relative'>
+        <div>
           <img id='img-main' src={profs[profileNumber].photo} alt=''></img>
-          <div>
-            <i className='far fa-heart heart-icon fa-2x'></i>
-          </div>
         </div>
 
         <p id='person'>
@@ -102,6 +98,16 @@ export const People = ({
           PreferenceFemale:{" "}
           {profs[profileNumber].preferenceFemale ? "true" : "false"}
         </p>
+        <div className='img-relative'>
+          <div className='flex-like-message'>
+            <div className='message-icon'>
+              <i class='far fa-comments fa-2x'></i> <span>Chat</span>
+            </div>
+            <div className='heart-icon'>
+              <i className='far fa-heart fa-2x'></i> <span> Favourites</span>
+            </div>
+          </div>
+        </div>
       </div>
       <p id='next-btn' onClick={(e) => nextProfile(profs)}>
         <i className='fas fa-chevron-right fa-5x'></i>

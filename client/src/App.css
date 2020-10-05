@@ -139,26 +139,18 @@ nav ul a {
 }
 
 .inside {
+  position: relative;
   flex: 5;
   padding: 0px 2rem 2rem 2rem;
   max-width: 600px;
 
   margin: auto;
+  margin-top: 1rem;
   border: solid 2px;
   border-radius: 20px;
   background: #333;
-  min-height: 75vh;
+  min-height: 850px;
   max-height: 900px;
-  transition-property: background, color;
-  transition: 0.5s ease-in-out;
-}
-
-.inside:hover {
-  background: #555;
-}
-
-.flex-rewind img {
-  /* flex: 3; */
 }
 
 .flex-rewind > p {
@@ -219,7 +211,7 @@ body {
 }
 #description {
   line-height: 2rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   text-align: justify;
 }
 
@@ -241,25 +233,77 @@ footer {
 }
 
 #img-main {
-  height: 450px;
+  height: 400px;
   max-width: 500px;
   object-fit: contain;
   border-bottom: solid 2px #1e90ff;
 }
 
 .img-relative {
-  position: relative;
-  /* display: inline-block; */
-  display: inline;
+  position: absolute;
+  display: block;
+  bottom: 0;
+  padding-top: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  left: 0;
+  right: 0;
 }
 
 .img-relative .heart-icon {
-  display: none;
-  /* display: inherit; */
-  position: absolute;
+  box-shadow: rgb(220, 20, 60) 0px 0px 40px -2px;
+  background: #555;
+  display: inline-block;
   color: #dc143c;
-  top: 0;
-  right: 0;
+  margin-bottom: 1.5rem;
+  margin-left: 1rem;
+  border: solid #dc143c 1px;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 200px;
+  width: 100%;
+  cursor: pointer;
+  transition: box-shadow 0.5s ease-in-out 0s;
+}
+.img-relative .heart-icon:hover {
+  box-shadow: rgb(220, 20, 60) 0px 0px 40px 20px;
+}
+
+.flex-like-message {
+  display: flex;
+  /* align-items: flex-end; */
+  justify-content: space-around;
+  width: 100%;
+}
+.img-relative .message-icon {
+  box-shadow: rgb(30, 144, 255) 0px 0px 40px -2px;
+  background: #555;
+  min-width: 200px;
+  width: 100%;
+  display: inline-block;
+  color: #1e90ff;
+  margin-bottom: 1.5rem;
+  margin-right: 1rem;
+  align-self: flex-end;
+  border: solid #1e90ff 1px;
+  padding: 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: box-shadow 0.5s ease-in-out 0s;
+}
+.img-relative .message-icon:hover {
+  box-shadow: rgb(30, 144, 255) 0px 0px 40px 20px;
+}
+
+.img-relative .message-icon span {
+  display: inline-block;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.heart-icon span {
+  color: white;
+  font-size: 1.5rem;
 }
 
 .upper-flex {

@@ -6,7 +6,7 @@ import Footer from "./Footer";
 const Landing = () => {
   return (
     <Fragment>
-      <PeopleActions />
+      {/* <PeopleActions /> */}
       <div className='container'>
         <People />
         <Footer />
