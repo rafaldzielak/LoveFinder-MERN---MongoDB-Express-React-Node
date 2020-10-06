@@ -8,6 +8,8 @@ import {
   PROFILE_ERROR,
   GET_PROFILES,
   SET_LOADING,
+  SEND_MESSAGE,
+  RECEIVE_MESSAGE,
 } from "./types";
 
 export const createProfile = ({

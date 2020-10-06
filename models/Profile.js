@@ -37,6 +37,10 @@ const ProfileSchema = mongoose.Schema({
     type: Array,
     default: [],
   },
+  messages: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("profile", ProfileSchema);

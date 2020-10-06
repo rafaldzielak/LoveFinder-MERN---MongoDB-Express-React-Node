@@ -3,6 +3,7 @@ import { getProfiles, getProfile } from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { check } from "express-validator";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 export const People = ({
   profile: { profile, profiles, loading },
@@ -22,6 +23,7 @@ export const People = ({
       }
     })
   );
+  const history = useHistory();
   useEffect(() => {
     getProfiles();
   }, [getProfiles]);
@@ -100,7 +102,10 @@ export const People = ({
         </p>
         <div className='img-relative'>
           <div className='flex-like-message'>
-            <div className='message-icon'>
+            <div
+              className='message-icon'
+              onClick={(e) => history.push("/chat")}
+            >
               <i class='far fa-comments fa-2x'></i> <span>Chat</span>
             </div>
             <div className='heart-icon'>

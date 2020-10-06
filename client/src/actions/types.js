@@ -12,3 +12,6 @@ export const GET_PROFILES = "GET_PROFILES";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
 export const SET_LOADING = "SET_LOADING";
+export const GET_MESSAGES = "GET_MESSAGES";
+export const SEND_MESSAGE = "SEND_MESSAGE";
+export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";

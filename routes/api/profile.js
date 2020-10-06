@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
 const authMiddleware = require("../../middleware/auth");
+const axios = require("node-fetch");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
@@ -122,6 +123,50 @@ router.delete("/", authMiddleware, async (req, res) => {
     await Profile.findOneAndRemove({ user: req.user.id });
     await User.findByIdAndRemove(req.user.id);
     res.send("User & Profile removed");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.get("/message/:from_user/:to_user", authMiddleware, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    messages = profile.messages;
+    res.json({ messages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
+router.post("/message/:to_user", authMiddleware, async (req, res) => {
+  try {
+    console.log(req.user.id);
+    const profileAuth = await Profile.findOne({ user: req.user.id });
+    if (profileAuth === null) {
+      return res.json({ msg: "Profile not found" });
+    }
+    const toProfile = await Profile.findOne({ user: req.params.to_user });
+    if (!toProfile) {
+      return res.json({ msg: "Recipient of the message not found" });
+    }
+    const messagesAuth = profileAuth.messages;
+    const messagesTo = toProfile.messages;
+
+    message = {
+      msg: req.body.msg,
+      from: req.user.id,
+      to: req.params.to_user,
+      date: new Date(),
+    };
+    messagesAuth.push(message);
+    messagesTo.push(message);
+    profileAuth.messages = messagesAuth;
+    toProfile.messages = messagesTo;
+    profileAuth.save();
+    toProfile.save();
+    return res.json({ profileAuth });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
