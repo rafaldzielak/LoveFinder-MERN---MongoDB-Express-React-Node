@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
 import ProfileForm from "./components/profile/ProfileForm";
+import Chat from "./components/people/Chat";
 import setAuthToken from "./utils/setAuthToken";
 // import PeopleActions from "./components/people/PeopleActions";
 if (localStorage.token) {
@@ -31,6 +32,7 @@ function App() {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/profile' component={ProfileForm} />
+              <Route exact path='/chat' component={Chat} />
             </Switch>
           </Fragment>
         </div>
