@@ -25,6 +25,7 @@ export const People = ({
   );
   const history = useHistory();
   useEffect(() => {
+    console.log(auth);
     getProfiles();
   }, [getProfiles]);
 
@@ -102,12 +103,18 @@ export const People = ({
         </p>
         <div className='img-relative'>
           <div className='flex-like-message'>
-            <div
+            <Link
+              to={{
+                pathname: "/chat",
+                state: { profileToChat: profs[profileNumber].user },
+              }}
               className='message-icon'
-              onClick={(e) => history.push("/chat")}
             >
-              <i class='far fa-comments fa-2x'></i> <span>Chat</span>
-            </div>
+              <div className='pointer' onClick={(e) => history.push("/chat")}>
+                <i className='far fa-comments fa-2x'></i>{" "}
+                <span className='pointer'>Chat</span>
+              </div>
+            </Link>
             <div className='heart-icon'>
               <i className='far fa-heart fa-2x'></i> <span> Favourites</span>
             </div>

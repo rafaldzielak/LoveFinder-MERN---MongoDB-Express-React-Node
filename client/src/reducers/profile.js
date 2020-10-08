@@ -4,6 +4,7 @@ import {
   GET_PROFILES,
   CLEAR_PROFILE,
   SET_LOADING,
+  GET_MESSAGES,
 } from "../actions/types";
 
 const initialState = {
@@ -27,6 +28,12 @@ export default function (state = initialState, action) {
       return { ...state, error: payload, loading: false };
     case SET_LOADING:
       return { ...state, loading: true };
+    case GET_MESSAGES:
+      return {
+        ...state,
+        profile: { ...state.profile, messages: payload },
+        loading: false,
+      };
 
     default:
       return state;

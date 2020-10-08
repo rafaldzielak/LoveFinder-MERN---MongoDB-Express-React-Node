@@ -131,8 +131,11 @@ router.delete("/", authMiddleware, async (req, res) => {
 
 router.get("/message/:from_user/:to_user", authMiddleware, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id });
-    messages = profile.messages;
+    const profileAuth = await Profile.findOne({ user: req.user.id });
+    // const profiletoChat = await Profile.findOne({ user: req.params.to_user });
+    messages = profileAuth.messages.filter(
+      (message) => message.to === req.params.to_user
+    );
     res.json({ messages });
   } catch (error) {
     console.error(error);
