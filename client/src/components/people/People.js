@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { getProfiles, getProfile } from "../../actions/profile";
+import { getProfiles, getProfile, clearMessages } from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { check } from "express-validator";
@@ -10,6 +10,7 @@ export const People = ({
   getProfiles,
   getProfile,
   auth,
+  clearMessages
 }) => {
   const [matchingProfiles, setMatchingProfiles] = useState(
     profiles.filter((p) => {
@@ -25,7 +26,7 @@ export const People = ({
   );
   const history = useHistory();
   useEffect(() => {
-    console.log(auth);
+    clearMessages();
     getProfiles();
   }, [getProfiles]);
 
@@ -63,13 +64,11 @@ export const People = ({
   const nextProfile = (profs) => {
     if (profs.length > profileNumber + 1) {
       setProfileNumber(++profileNumber);
-      console.log(profileNumber);
     }
   };
   const previousProfile = (profs) => {
     if (profs.length > 0 && profileNumber > 0) {
       setProfileNumber(--profileNumber);
-      console.log(profileNumber);
     }
   };
 
@@ -103,9 +102,11 @@ export const People = ({
         </p>
         <div className='img-relative'>
           <div className='flex-like-message'>
+          {console.log(profs[profileNumber])}
             <Link
               to={{
                 pathname: "/chat",
+                
                 state: { profileToChat: profs[profileNumber].user },
               }}
               className='message-icon'
@@ -154,4 +155,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfiles, getProfile })(People);
+export default connect(mapStateToProps, { getProfiles, getProfile, clearMessages })(People);

@@ -5,10 +5,11 @@ import {
   CLEAR_PROFILE,
   SET_LOADING,
   GET_MESSAGES,
+  CLEAR_MESSAGES,
 } from "../actions/types";
 
 const initialState = {
-  profile: {},
+  profile: {messages: []},
   profiles: [],
   loading: true,
   error: {},
@@ -19,7 +20,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_PROFILE:
-      return { ...state, profile: payload, loading: false };
+      return { ...state, profile: {...state.profile, payload}, loading: false };
     case GET_PROFILES:
       return { ...state, profiles: payload, loading: false };
     case CLEAR_PROFILE:
@@ -32,8 +33,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: { ...state.profile, messages: payload },
-        loading: false,
+        // loading: false,
       };
+      case CLEAR_MESSAGES: return {
+        ...state,
+        profile: {...state.profile, messages: []}
+      }
 
     default:
       return state;

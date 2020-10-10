@@ -12,7 +12,7 @@ const User = require("../../models/User");
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    const profiles = await Profile.find();
     res.json(profiles);
   } catch (error) {
     console.error(error);
@@ -27,7 +27,7 @@ router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id,
-    }).populate("user", ["date", "avatar"]);
+    }).populate("user", ["date", "avatar"]).select('-messages');
     res.json(profile);
   } catch (error) {
     console.error(error);
@@ -35,14 +35,14 @@ router.get("/user/:user_id", async (req, res) => {
   }
 });
 
-// @route   GET api/profile/mme
+// @route   GET api/profile/me
 // @desc    Get profile of current logged user
 // @access  Private
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate("user", ["date", "avatar", "email"]);
+    }).populate("user", ["date", "avatar", "email"]).select('-messages');
     res.json(profile);
   } catch (error) {
     console.error(error);
@@ -129,12 +129,15 @@ router.delete("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/message/:from_user/:to_user", authMiddleware, async (req, res) => {
+router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
   try {
     const profileAuth = await Profile.findOne({ user: req.user.id });
     // const profiletoChat = await Profile.findOne({ user: req.params.to_user });
+    console.log(`from_user: ${req.params.from_user}`)
+    console.log(`to_user: ${req.params.touser}`)
+    console.log(profileAuth.messages);
     messages = profileAuth.messages.filter(
-      (message) => message.to === req.params.to_user
+      (message) => (message.to === req.params.touser) || (message.from === req.params.touser)
     );
     res.json({ messages });
   } catch (error) {

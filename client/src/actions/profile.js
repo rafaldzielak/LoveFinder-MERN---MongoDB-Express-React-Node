@@ -11,6 +11,7 @@ import {
   SEND_MESSAGE,
   RECEIVE_MESSAGE,
   GET_MESSAGES,
+  CLEAR_MESSAGES
 } from "./types";
 
 export const createProfile = ({
@@ -42,7 +43,6 @@ export const createProfile = ({
   }
 };
 export const getProfile = () => async (dispatch) => {
-  console.log("AAAAAAAAAAAAAAAAAAAAAA");
   try {
     const res = await axios.get("api/profile/me");
     dispatch({ type: GET_PROFILE, payload: res.data });
@@ -74,8 +74,11 @@ export const getProfiles = () => async (dispatch) => {
 
 export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
   try {
+    console.log("toUser: " + toUser)
     const res = await axios.get(`api/profile/message/${fromUser}/${toUser}`);
-    dispatch({ type: GET_MESSAGES, payload: res.data });
+    console.log("RES.data:")
+    console.log(res.data);
+    dispatch({ type: GET_MESSAGES, payload: res.data.messages });
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
@@ -105,3 +108,10 @@ export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
 export const clearProfile = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
 };
+export const clearMessages = () => async (dispatch) => {
+  dispatch({ type: CLEAR_MESSAGES });
+};
+export const setLoading = () => async (dispatch) => {
+  dispatch({ type: SET_LOADING });
+};
+

@@ -1,40 +1,47 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
-import { getMessages, getProfile } from "../../actions/profile.js";
+import { getMessages, getProfile, setLoading, clearMessages } from "../../actions/profile.js";
 import { connect } from "react-redux";
 
-const Chat = ({ location, auth, profile, getMessages, getProfile }) => {
+const Chat = ({ location, auth, profile, getMessages, getProfile, setLoading, clearMessages }) => {
   const { profileToChat } = location.state;
+  const {loading, messages} = profile;
 
-  // useEffect(() => {
-  //   console.log("BBBBBBBBB");
-  //   if (auth.isAuthenticated) {
-  //     console.log("AAAA");
-  //     getProfile();
-  //   }
-  //   // getProfile();
-
-  //   console.log("match.params:");
-  //   // console.log(match.match.params);
-  //   console.log(props);
-  //   // console.log(profile);
-  //   console.log(profileToChat);
-  //   // getMessages({profileToChat, profile._id});
-  //   // console.log(profile.messages);
-  // }, [getProfile, getMessages, auth.loading]);
+   useEffect(() => {
+    // setLoading();
+    console.log(location);
+    console.log("messages: ");
+    console.log(profile);
+    // if (auth.isAuthenticated) {
+    //   getProfile();
+    // }
+  }, [auth.isAuthenticated]);
 
   useEffect(() => {
-    console.log(location.state.profileToChat);
-    if (auth.isAuthenticated) {
-      getProfile();
-      getMessages({ fromUser: auth.user._id, toUser: profileToChat })
+
+    if (auth.isAuthenticated && !loading) {
+        getMessages({ fromUser: auth.user._id, toUser: profileToChat })
     }
-  }, [auth.isAuthenticated]);
+  }, [auth.isAuthenticated, loading]);
 
   return (
     <Fragment>
       <div className='inside msg-flex margin-1'>
         <div className='msg-flex'>
+
+          {messages && messages.map((message) => 
+            message.from === profileToChat ? (
+            <div className='msg from-msg'>
+              {message.msg}
+              {console.log(message.from)}
+            </div>) : (<div className='msg to-msg'>
+              {message.msg}
+              {console.log(message.from)}
+            </div>)
+          )}
+
+          {messages.length === 0 && 
+          <Fragment>
           <div className='msg from-msg'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus
             blanditiis placeat asperiores voluptate iusto officiis, alias at
@@ -51,6 +58,8 @@ const Chat = ({ location, auth, profile, getMessages, getProfile }) => {
             blanditiis placeat asperiores voluptate iusto officiis, alias at
             voluptates cupiditate doloribus.
           </div>
+          </Fragment>
+          }          
         </div>
 
         <div className='bottom-flex'>
@@ -70,13 +79,15 @@ const Chat = ({ location, auth, profile, getMessages, getProfile }) => {
 
 Chat.propTypes = {
   auth: PropTypes.object.isRequired,
+  messages: PropTypes.array.isRequired,
   getMessages: PropTypes.func.isRequired,
   getProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile,
+  profile: state.profile.profile,
+  messages: state.profile.messages,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getMessages, getProfile })(Chat);
+export default connect(mapStateToProps, { getMessages, getProfile, setLoading, clearMessages })(Chat);
