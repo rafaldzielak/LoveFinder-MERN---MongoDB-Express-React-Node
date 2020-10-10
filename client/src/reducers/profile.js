@@ -2,6 +2,7 @@ import {
   GET_PROFILE,
   PROFILE_ERROR,
   GET_PROFILES,
+  GET_FAVOURITE_PROFILES,
   CLEAR_PROFILE,
   SET_LOADING,
   GET_MESSAGES,
@@ -22,6 +23,8 @@ export default function (state = initialState, action) {
     case GET_PROFILE:
       return { ...state, profile: {...state.profile, ...payload}, loading: false };
     case GET_PROFILES:
+      return { ...state, profiles: payload, loading: false };
+    case GET_FAVOURITE_PROFILES:
       return { ...state, profiles: payload, loading: false };
     case CLEAR_PROFILE:
       return { ...state, profile: {}, loading: true };

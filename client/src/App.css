@@ -59,9 +59,9 @@ nav::after {
   z-index: -1;
 }
 
-a {
+/* a {
   width: 200px;
-}
+} */
 
 .btn-light {
   text-align: center;
@@ -412,4 +412,26 @@ h5 {
 .far,
 .fas {
   cursor: pointer;
+}
+
+.liked-profiles{
+  margin-top: 1rem;
+  display: grid;
+  /* grid-template-columns:: 200px auto 200px; */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.liked-profile{
+  border: 2px solid white;
+  border-radius: 10px;
+  grid-template-columns: auto auto auto;
+  padding-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+#img-small {
+  height: 200px;
+  max-width: 300px;
+  object-fit: contain;
 }

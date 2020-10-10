@@ -11,6 +11,7 @@ import { loadUser } from "./actions/auth";
 import ProfileForm from "./components/profile/ProfileForm";
 import Chat from "./components/people/Chat";
 import setAuthToken from "./utils/setAuthToken";
+import Favourites from "./components/people/Favourites";
 // import PeopleActions from "./components/people/PeopleActions";
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -32,12 +33,8 @@ function App() {
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <Route exact path='/profile' component={ProfileForm} />
-              <Route
-                exact
-                path='/chat'
-                component={Chat}
-                profileToChat='kjsdakjshdj'
-              />
+              <Route exact path='/chat' component={Chat}/>
+              <Route exact path='/favourites' component={Favourites}/>
             </Switch>
           </Fragment>
         </div>

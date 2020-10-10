@@ -11,7 +11,7 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import { setAlert } from "./alert";
 import { Redirect } from "react-router-dom";
-import { getProfiles } from "./profile";
+import { clearProfile, getProfiles } from "./profile";
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.getItem("token")) {
@@ -25,9 +25,7 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const registerUser = ({ name, email, password, history }) => async (
-  dispatch
-) => {
+export const registerUser = ({ name, email, password, history }) => async (dispatch) => {
   const config = { headers: { "Content-Type": "application/json" } };
   const body = JSON.stringify({ name, email, password });
   try {
@@ -59,5 +57,6 @@ export const loginUser = ({ email, password, history }) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
   dispatch({ type: CLEAR_PROFILE });
-  dispatch(getProfiles())
+  dispatch(getProfiles());
+  dispatch(clearProfile());
 };

@@ -7,6 +7,9 @@ export const Navbar = ({ logout, auth }) => {
   const authLinks = (
     <Fragment>
       <li>
+        <Link to='/favourites'>Favourites</Link>
+      </li>
+      <li>
         <Link to='/profile'>My Profile</Link>
       </li>
       <li>

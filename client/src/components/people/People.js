@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { getProfiles, getProfile, clearMessages } from "../../actions/profile";
+import { getProfiles, getProfile, clearMessages, addToFavourites } from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { check } from "express-validator";
@@ -9,8 +9,9 @@ export const People = ({
   profile: { profile, profiles, loading },
   getProfiles,
   getProfile,
+  addToFavourites,
   auth,
-  clearMessages
+  clearMessages,
 }) => {
   const [matchingProfiles, setMatchingProfiles] = useState(
     profiles.filter((p) => {
@@ -44,14 +45,10 @@ export const People = ({
           if (
             (p.sex === "male" &&
               profile.preferenceMale === true &&
-              (profile.sex === "male"
-                ? p.preferenceMale
-                : p.preferenceFemale)) ||
+              (profile.sex === "male" ? p.preferenceMale : p.preferenceFemale)) ||
             (p.sex === "female" &&
               profile.preferenceFemale === true &&
-              (profile.sex === "female"
-                ? p.preferenceFemale
-                : p.preferenceMale))
+              (profile.sex === "female" ? p.preferenceFemale : p.preferenceMale))
           ) {
             return true;
           }
@@ -90,33 +87,29 @@ export const People = ({
         <p id='age'></p>
         <p className='about'>About me:</p>
         <p id='description'>{profs[profileNumber].description}</p>
+        <p id='description'>Gender: {profs[profileNumber].sex === "male" ? "male" : "female"}</p>
         <p id='description'>
-          Gender: {profs[profileNumber].sex === "male" ? "male" : "female"}
+          PreferenceMale: {profs[profileNumber].preferenceMale ? "true" : "false"}
         </p>
         <p id='description'>
-          PreferenceMale:{" "}
-          {profs[profileNumber].preferenceMale ? "true" : "false"}
-        </p>
-        <p id='description'>
-          PreferenceFemale:{" "}
-          {profs[profileNumber].preferenceFemale ? "true" : "false"}
+          PreferenceFemale: {profs[profileNumber].preferenceFemale ? "true" : "false"}
         </p>
         <div className='img-relative'>
           <div className='flex-like-message'>
-          {console.log(profs[profileNumber])}
+            {console.log(profs[profileNumber])}
             <Link
               to={{
                 pathname: "/chat",
                 state: { profileToChat: profs[profileNumber].user },
               }}
-              className='message-icon'
-            >
+              className='message-icon'>
               <div className='pointer' onClick={(e) => history.push("/chat")}>
-                <i className='far fa-comments fa-2x'></i>{" "}
-                <span className='pointer'>Chat</span>
+                <i className='far fa-comments fa-2x'></i> <span className='pointer'>Chat</span>
               </div>
             </Link>
-            <div className='heart-icon'>
+            <div
+              className='heart-icon'
+              onClick={(e) => addToFavourites({ profileIdToLike: profs[profileNumber]._id })}>
               <i className='far fa-heart fa-2x'></i> <span> Favourites</span>
             </div>
           </div>
@@ -146,6 +139,7 @@ export const People = ({
 People.propTypes = {
   getProfile: PropTypes.func.isRequired,
   getProfiles: PropTypes.func.isRequired,
+  addToFavourites: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -155,4 +149,9 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProfiles, getProfile, clearMessages })(People);
+export default connect(mapStateToProps, {
+  getProfiles,
+  getProfile,
+  clearMessages,
+  addToFavourites,
+})(People);

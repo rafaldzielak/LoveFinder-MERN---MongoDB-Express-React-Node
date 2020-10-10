@@ -12,7 +12,7 @@ const User = require("../../models/User");
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find();
+    const profiles = await Profile.find().select("-messages");
     res.json(profiles);
   } catch (error) {
     console.error(error);
@@ -27,7 +27,9 @@ router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id,
-    }).populate("user", ["date", "avatar"]).select('-messages');
+    })
+      .populate("user", ["date", "avatar"])
+      .select("-messages");
     res.json(profile);
   } catch (error) {
     console.error(error);
@@ -42,7 +44,9 @@ router.get("/me", authMiddleware, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate("user", ["date", "avatar", "email"]).select('-messages');
+    })
+      .populate("user", ["date", "avatar", "email"])
+      .select("-messages");
     res.json(profile);
   } catch (error) {
     console.error(error);
@@ -65,8 +69,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
     try {
       const {
         name,
@@ -136,11 +139,11 @@ router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
   try {
     const profileAuth = await Profile.findOne({ user: req.user.id });
     // const profiletoChat = await Profile.findOne({ user: req.params.to_user });
-    console.log(`from_user: ${req.params.from_user}`)
-    console.log(`to_user: ${req.params.touser}`)
+    console.log(`from_user: ${req.params.from_user}`);
+    console.log(`to_user: ${req.params.touser}`);
     console.log(profileAuth.messages);
     messages = profileAuth.messages.filter(
-      (message) => (message.to === req.params.touser) || (message.from === req.params.touser)
+      (message) => message.to === req.params.touser || message.from === req.params.touser
     );
     res.json({ messages });
   } catch (error) {
@@ -186,3 +189,38 @@ router.post("/message/:to_user", authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+
+// @route   GET api/profile/fav
+// @desc    Get all favourite profiles
+// @access  Private
+router.get("/fav", authMiddleware, async (req, res) => {
+  try {
+    const likedProfiles = await Profile.find({
+      likedBy: req.user.id,
+    }).select("-messages");
+    console.log(likedProfiles);
+    res.json(likedProfiles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route   POST api/profile/fav
+// @desc    Like profile
+// @access  Public
+router.post("/fav/:profileToLike", authMiddleware, async (req, res) => {
+  try {
+    console.log(req.params.profileToLike);
+    console.log("IN likeProfile");
+    const likedProfile = await Profile.findById(req.params.profileToLike).select("-messages");
+    console.log("likedProfile:");
+    console.log(likedProfile);
+    likedProfile.likedBy.push(req.user.id);
+    likedProfile.save();
+    res.json(likedProfile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
