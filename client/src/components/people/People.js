@@ -40,6 +40,7 @@ export const People = ({
     if (profile) {
       setMatchingProfiles(
         profiles.filter((p, index) => {
+          if (p._id === profile._id) return false;
           if (
             (p.sex === "male" &&
               profile.preferenceMale === true &&
@@ -106,7 +107,6 @@ export const People = ({
             <Link
               to={{
                 pathname: "/chat",
-                
                 state: { profileToChat: profs[profileNumber].user },
               }}
               className='message-icon'

@@ -90,20 +90,26 @@ export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
   }
 };
 
-// export const sendMessage = ({ msg, from, to }) => async (dispatch) => {
-//   try {
-//     const res = await axios.post("api/profile");
-//     dispatch({ type: GET_PROFILES, payload: res.data });
-//   } catch (error) {
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: {
-//         msg: error.response.statusText,
-//         status: error.response.status,
-//       },
-//     });
-//   }
-// };
+export const sendMessage = ({ msg, to }) => async (dispatch) => {
+  try {
+    const config = { headers: { "Content-Type": "application/json" } }
+    console.log(`api/profile/message/${to}`)
+    console.log(msg);
+    const res = await axios.post(`api/profile/message/${to}`, {msg}, config);
+    console.log("SEND MESSAGE RES.data:")
+    console.log(res.data);
+    dispatch({ type: SEND_MESSAGE, payload: res.data });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
 
 export const clearProfile = () => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });

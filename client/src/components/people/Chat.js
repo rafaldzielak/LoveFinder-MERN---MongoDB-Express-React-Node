@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { getMessages, getProfile, setLoading, clearMessages } from "../../actions/profile.js";
+import { getMessages, getProfile, setLoading, clearMessages, sendMessage } from "../../actions/profile.js";
 import { connect } from "react-redux";
 
-const Chat = ({ location, auth, profile, getMessages, getProfile, setLoading, clearMessages }) => {
+const Chat = ({ location, auth, profile, getMessages, sendMessage, getProfile, setLoading, clearMessages }) => {
   const { profileToChat } = location.state;
   const {loading, messages} = profile;
 
@@ -23,6 +23,13 @@ const Chat = ({ location, auth, profile, getMessages, getProfile, setLoading, cl
         getMessages({ fromUser: auth.user._id, toUser: profileToChat })
     }
   }, [auth.isAuthenticated, loading]);
+
+  const [formData, setFormData] = useState("");
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await sendMessage({msg: formData, to: profileToChat})
+    await getMessages({ fromUser: auth.user._id, toUser: profileToChat });
+  }
 
   return (
     <Fragment>
@@ -63,9 +70,9 @@ const Chat = ({ location, auth, profile, getMessages, getProfile, setLoading, cl
         </div>
 
         <div className='bottom-flex'>
-          <form>
+          <form onSubmit={e => {onSubmit(e)}}>
             <div className='msg-write row input-field'>
-              <input className='col s9' type='text' name='' id='' />
+              <input className='col s9' type='text' name='text' id='text' value={formData} onChange={e => setFormData(e.target.value)} />
               <div className='pointer col s2'>
                 <i className='fas fa-paper-plane fa-3x'></i>
               </div>
@@ -90,4 +97,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getMessages, getProfile, setLoading, clearMessages })(Chat);
+export default connect(mapStateToProps, { getMessages, getProfile, setLoading, sendMessage, clearMessages })(Chat);

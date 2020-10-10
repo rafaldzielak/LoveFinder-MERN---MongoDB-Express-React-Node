@@ -129,6 +129,9 @@ router.delete("/", authMiddleware, async (req, res) => {
   }
 });
 
+// @route   GET api/profile/message/:from_user/:touser
+// @desc    get messages from user to specific user
+// @access  Private
 router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
   try {
     const profileAuth = await Profile.findOne({ user: req.user.id });
@@ -146,6 +149,9 @@ router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
   }
 });
 
+// @route   POST api/profile/message/:touser
+// @desc    Send message to specific user
+// @access  Private
 router.post("/message/:to_user", authMiddleware, async (req, res) => {
   try {
     console.log(req.user.id);

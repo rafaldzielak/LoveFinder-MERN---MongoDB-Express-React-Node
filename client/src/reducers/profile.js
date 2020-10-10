@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_PROFILE:
-      return { ...state, profile: {...state.profile, payload}, loading: false };
+      return { ...state, profile: {...state.profile, ...payload}, loading: false };
     case GET_PROFILES:
       return { ...state, profiles: payload, loading: false };
     case CLEAR_PROFILE:
