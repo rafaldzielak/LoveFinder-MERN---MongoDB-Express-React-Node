@@ -1,21 +1,20 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { getProfile, clearMessages, getFavProfiles, setLoading } from "../../actions/profile";
+import React, { Fragment, useEffect } from "react";
+import { getFavProfiles, getProfile } from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Favourites = ({
   profile: { profiles, loading },
   auth,
   getFavProfiles,
-  setLoading,
   getProfile,
-  clearMessages,
 }) => {
   const { isAuthenticated } = auth;
   useEffect(() => {
+    getProfile();
     getFavProfiles();
-  }, [profiles.loading]);
+  }, [profiles.loading, getFavProfiles]);
 
   return (
     <Fragment>
@@ -55,7 +54,6 @@ export const Favourites = ({
 
 Favourites.propTypes = {
   getFavProfiles: PropTypes.func.isRequired,
-  getProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -65,6 +63,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getFavProfiles, getProfile, clearMessages, setLoading })(
-  Favourites
-);
+export default connect(mapStateToProps, { getFavProfiles, getProfile })(Favourites);

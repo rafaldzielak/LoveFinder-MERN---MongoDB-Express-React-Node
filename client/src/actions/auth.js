@@ -10,7 +10,6 @@ import {
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import { setAlert } from "./alert";
-import { Redirect } from "react-router-dom";
 import { clearProfile, getProfiles } from "./profile";
 
 export const loadUser = () => async (dispatch) => {

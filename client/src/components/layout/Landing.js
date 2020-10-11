@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import PeopleActions from "../people/PeopleActions";
 import People from "../people/People";
 import Footer from "./Footer";
 

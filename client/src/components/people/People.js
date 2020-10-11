@@ -8,8 +8,7 @@ import {
 } from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { check } from "express-validator";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export const People = ({
   profile: { profile, profiles, loading },
@@ -20,34 +19,23 @@ export const People = ({
   clearMessages,
   setLoading,
 }) => {
-  const [matchingProfiles, setMatchingProfiles] = useState(
-    profiles.filter((p) => {
-      if (profile) {
-        if (
-          (p.sex === "male" && profile.preferenceMale) ||
-          (p.sex === "female" && profile.preferenceFemale)
-        ) {
-          return true;
-        }
-      }
-    })
-  );
+  const [matchingProfiles, setMatchingProfiles] = useState([]);
   const history = useHistory();
   useEffect(() => {
     clearMessages();
     getProfiles();
-  }, [getProfiles]);
+  }, [getProfiles, clearMessages]);
 
   useEffect(() => {
     if (auth.isAuthenticated) {
       getProfile();
     }
-  }, [auth.loading]);
+  }, [auth.loading, getProfile, auth.isAuthenticated]);
 
   useEffect(() => {
     if (profile) {
       setMatchingProfiles(
-        profiles.filter((p, index) => {
+        profiles.filter((p) => {
           if (p._id === profile._id) return false;
           if (
             (p.sex === "male" &&
@@ -58,12 +46,12 @@ export const People = ({
               (profile.sex === "female" ? p.preferenceFemale : p.preferenceMale))
           ) {
             return true;
-          }
+          } else return false;
         })
       );
     }
-  }, [loading, profile]);
-  useEffect(() => () => setLoading(), []);
+  }, [loading, profile, profiles]);
+  useEffect(() => () => setLoading(), [setLoading]);
 
   let [profileNumber, setProfileNumber] = useState(0);
 
@@ -124,11 +112,12 @@ export const People = ({
               }}
               className='message-icon'>
               <div className='pointer' onClick={(e) => history.push("/chat")}>
-                <i className='far fa-comments fa-2x'></i> <span className='pointer'>Chat</span>
+                <i className='far fa-comments fa-2x'></i>
+                <span className='pointer select-disable'> Chat</span>
               </div>
             </Link>
             <div
-              className='heart-icon'
+              className='heart-icon '
               onClick={(e) => {
                 toggleFavourites({ profileIdToLike: profs[profileNumber]._id });
                 changeHeartIcon();
@@ -139,7 +128,7 @@ export const People = ({
                     ? "fas fa-heart fa-2x"
                     : "far fa-heart fa-2x"
                 }></i>
-              <span> Favourites</span>
+              <span className='select-disable pointer'> Favourites</span>
             </div>
           </div>
         </div>

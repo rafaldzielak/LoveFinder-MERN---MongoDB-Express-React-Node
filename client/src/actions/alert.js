@@ -1,6 +1,5 @@
 import React from "react";
 import { SET_ALERT, REMOVE_ALERT } from "./types";
-import axios from "axios";
 import { v4 } from "uuid";
 
 export const setAlert = (msg, alertType) => (dispatch) => {

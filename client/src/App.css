@@ -59,6 +59,13 @@ nav::after {
   z-index: -1;
 }
 
+.select-disable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /* a {
   width: 200px;
 } */

@@ -1,37 +1,27 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  getMessages,
-  getProfile,
-  setLoading,
-  clearMessages,
-  sendMessage,
-} from "../../actions/profile.js";
+import { getMessages, sendMessage } from "../../actions/profile.js";
 import Alert from "../layout/Alert";
 import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-const Chat = ({
-  location,
-  auth,
-  profile,
-  getMessages,
-  sendMessage,
-  setAlert,
-  getProfile,
-  setLoading,
-  clearMessages,
-}) => {
+const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) => {
   const { profileToChat } = location.state;
   const { loading, messages } = profile;
+
+  let messagesEnd = "";
+  const scrollToBottom = () => {
+    messagesEnd.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     if (auth.isAuthenticated && !loading) {
       getMessages({ fromUser: auth.user._id, toUser: profileToChat });
+      // setInterval(() => getMessages({ fromUser: auth.user._id, toUser: profileToChat }), 10000);
     }
     scrollToBottom();
-  }, [auth.isAuthenticated, loading]);
+  }, [auth.isAuthenticated, loading, profileToChat, getMessages]);
 
   useEffect(() => {
     scrollToBottom();
@@ -48,10 +38,6 @@ const Chat = ({
       setFormData("");
     }
   };
-  let messagesEnd = "";
-  const scrollToBottom = () => {
-    messagesEnd.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <Fragment>
@@ -66,11 +52,7 @@ const Chat = ({
                 <div className='msg to-msg'>{message.msg}</div>
               )
             )}
-          <div
-            style={{ float: "left", clear: "both" }}
-            ref={(el) => {
-              messagesEnd = el;
-            }}></div>
+          <div style={{ float: "left", clear: "both" }} ref={(el) => (messagesEnd = el)}></div>
 
           {/* {!loading && messages.length === 0 && (
             <Fragment>
@@ -136,10 +118,7 @@ const mapStateToProps = (state) => ({
 export default withRouter(
   connect(mapStateToProps, {
     getMessages,
-    getProfile,
-    setLoading,
     setAlert,
     sendMessage,
-    clearMessages,
   })(Chat)
 );

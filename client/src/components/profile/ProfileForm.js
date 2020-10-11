@@ -2,14 +2,12 @@ import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { createProfile, getProfile, setLoading } from "../../actions/profile";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router-dom";
 import Alert from "../layout/Alert";
 import { setAlert } from "../../actions/alert";
 
 export const ProfileForm = ({
   createProfile,
   getProfile,
-  history,
   auth,
   profile: { profile, loading },
   setLoading,
@@ -42,6 +40,7 @@ export const ProfileForm = ({
       });
     }
   }, [getProfile, loading, auth]);
+  useEffect(() => () => setLoading(), []);
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -120,11 +119,23 @@ export const ProfileForm = ({
                 <div className='input-field col s12' onChange={(e) => setGender(e)}>
                   <p>
                     <label>
-                      <input name='sex' type='radio' value='male' checked={sex === "male"} />
+                      <input
+                        name='sex'
+                        type='radio'
+                        value='male'
+                        onChange={() => {}}
+                        checked={sex === "male"}
+                      />
                       <span className='radio'>Male</span>
                     </label>
                     <label>
-                      <input name='sex' type='radio' value='female' checked={sex === "female"} />
+                      <input
+                        name='sex'
+                        type='radio'
+                        value='female'
+                        onChange={() => {}}
+                        checked={sex === "female"}
+                      />
                       <span>Female</span>
                     </label>
                   </p>
@@ -176,21 +187,19 @@ export const ProfileForm = ({
                 </div>
               </div>
               <div className='row'>
-                <form className='col s12'>
-                  <div className='row'>
-                    <div className='input-field col s12'>
-                      <textarea
-                        id='description'
-                        className='materialize-textarea white-text'
-                        name='description'
-                        value={description}
-                        onChange={(e) => onChange(e)}></textarea>
-                      <label className='active' htmlFor='description'>
-                        Description
-                      </label>
-                    </div>
+                <div className='row'>
+                  <div className='input-field col s12'>
+                    <textarea
+                      id='description'
+                      className='materialize-textarea white-text'
+                      name='description'
+                      value={description}
+                      onChange={(e) => onChange(e)}></textarea>
+                    <label className='active' htmlFor='description'>
+                      Description
+                    </label>
                   </div>
-                </form>
+                </div>
               </div>
 
               {/* <input type='submit' className='btn btn-primary' value='Register' /> */}
