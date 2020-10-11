@@ -214,9 +214,12 @@ router.post("/fav/:profileToLike", authMiddleware, async (req, res) => {
     console.log(req.params.profileToLike);
     console.log("IN likeProfile");
     const likedProfile = await Profile.findById(req.params.profileToLike).select("-messages");
-    console.log("likedProfile:");
-    console.log(likedProfile);
-    likedProfile.likedBy.push(req.user.id);
+    const index = likedProfile.likedBy.indexOf(req.user.id);
+    if (index > -1) {
+      console.log("In favourites, removing");
+      likedProfile.likedBy.splice(index, 1);
+      console.log(likedProfile.likedBy);
+    } else likedProfile.likedBy.push(req.user.id);
     likedProfile.save();
     res.json(likedProfile);
   } catch (error) {

@@ -127,7 +127,7 @@ export const sendMessage = ({ msg, to }) => async (dispatch) => {
   }
 };
 
-export const addToFavourites = ({ profileIdToLike }) => async (dispatch) => {
+export const toggleFavourites = ({ profileIdToLike }) => async (dispatch) => {
   try {
     console.log(`api/profile/fav/${profileIdToLike}`);
     const res = await axios.post(`api/profile/fav/${profileIdToLike}`);
@@ -152,6 +152,6 @@ export const clearProfile = () => async (dispatch) => {
 export const clearMessages = () => async (dispatch) => {
   dispatch({ type: CLEAR_MESSAGES });
 };
-export const setLoading = () => async (dispatch) => {
-  dispatch({ type: SET_LOADING });
+export const setLoading = (to = true) => async (dispatch) => {
+  dispatch({ type: SET_LOADING, payload: to });
 };

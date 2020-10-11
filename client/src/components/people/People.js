@@ -1,5 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { getProfiles, getProfile, clearMessages, addToFavourites } from "../../actions/profile";
+import {
+  getProfiles,
+  getProfile,
+  clearMessages,
+  toggleFavourites,
+  setLoading,
+} from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { check } from "express-validator";
@@ -9,9 +15,10 @@ export const People = ({
   profile: { profile, profiles, loading },
   getProfiles,
   getProfile,
-  addToFavourites,
+  toggleFavourites,
   auth,
   clearMessages,
+  setLoading,
 }) => {
   const [matchingProfiles, setMatchingProfiles] = useState(
     profiles.filter((p) => {
@@ -56,6 +63,7 @@ export const People = ({
       );
     }
   }, [loading, profile]);
+  useEffect(() => () => setLoading(), []);
 
   let [profileNumber, setProfileNumber] = useState(0);
 
@@ -68,6 +76,19 @@ export const People = ({
     if (profs.length > 0 && profileNumber > 0) {
       setProfileNumber(--profileNumber);
     }
+  };
+
+  const checkFavourites = (profile) => {
+    if (auth.user && profile.likedBy.includes(auth.user._id)) return true;
+    else return false;
+  };
+
+  const changeHeartIcon = () => {
+    let heartIcon = document.querySelector(".fa-heart");
+    console.log(heartIcon);
+    if (heartIcon.classList.contains("far")) heartIcon.className = "fas fa-heart fa-2x";
+    else if (heartIcon.classList.contains("fas")) heartIcon.className = "far fa-heart fa-2x";
+    console.log(heartIcon);
   };
 
   const display = (profs) => (
@@ -96,7 +117,6 @@ export const People = ({
         </p>
         <div className='img-relative'>
           <div className='flex-like-message'>
-            {console.log(profs[profileNumber])}
             <Link
               to={{
                 pathname: "/chat",
@@ -109,8 +129,17 @@ export const People = ({
             </Link>
             <div
               className='heart-icon'
-              onClick={(e) => addToFavourites({ profileIdToLike: profs[profileNumber]._id })}>
-              <i className='far fa-heart fa-2x'></i> <span> Favourites</span>
+              onClick={(e) => {
+                toggleFavourites({ profileIdToLike: profs[profileNumber]._id });
+                changeHeartIcon();
+              }}>
+              <i
+                className={
+                  checkFavourites(profs[profileNumber])
+                    ? "fas fa-heart fa-2x"
+                    : "far fa-heart fa-2x"
+                }></i>
+              <span> Favourites</span>
             </div>
           </div>
         </div>
@@ -126,7 +155,6 @@ export const People = ({
       {loading && <div>LOADING</div>}
       {!loading && profiles.length > 0 && profileNumber >= 0 && (
         <Fragment>
-          {console.log(matchingProfiles.length)}
           {auth.isAuthenticated && matchingProfiles.length > 0
             ? display(matchingProfiles)
             : display(profiles)}
@@ -139,9 +167,10 @@ export const People = ({
 People.propTypes = {
   getProfile: PropTypes.func.isRequired,
   getProfiles: PropTypes.func.isRequired,
-  addToFavourites: PropTypes.func.isRequired,
+  toggleFavourites: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  setLoading: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -153,5 +182,6 @@ export default connect(mapStateToProps, {
   getProfiles,
   getProfile,
   clearMessages,
-  addToFavourites,
+  toggleFavourites,
+  setLoading,
 })(People);

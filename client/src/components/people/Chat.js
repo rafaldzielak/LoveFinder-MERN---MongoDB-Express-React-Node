@@ -7,7 +7,10 @@ import {
   clearMessages,
   sendMessage,
 } from "../../actions/profile.js";
+import Alert from "../layout/Alert";
+import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const Chat = ({
   location,
@@ -15,6 +18,7 @@ const Chat = ({
   profile,
   getMessages,
   sendMessage,
+  setAlert,
   getProfile,
   setLoading,
   clearMessages,
@@ -23,48 +27,52 @@ const Chat = ({
   const { loading, messages } = profile;
 
   useEffect(() => {
-    // setLoading();
-    console.log(location);
-    console.log("messages: ");
-    console.log(profile);
-    // if (auth.isAuthenticated) {
-    //   getProfile();
-    // }
-  }, [auth.isAuthenticated]);
-
-  useEffect(() => {
     if (auth.isAuthenticated && !loading) {
       getMessages({ fromUser: auth.user._id, toUser: profileToChat });
     }
+    scrollToBottom();
   }, [auth.isAuthenticated, loading]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const [formData, setFormData] = useState("");
   const onSubmit = async (e) => {
     e.preventDefault();
-    await sendMessage({ msg: formData, to: profileToChat });
-    await getMessages({ fromUser: auth.user._id, toUser: profileToChat });
+    if (formData === "") {
+      setAlert("Type a message", "danger");
+    } else {
+      await sendMessage({ msg: formData, to: profileToChat });
+      await getMessages({ fromUser: auth.user._id, toUser: profileToChat });
+      setFormData("");
+    }
+  };
+  let messagesEnd = "";
+  const scrollToBottom = () => {
+    messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <Fragment>
+      <Alert></Alert>
       <div className='inside msg-flex margin-1'>
         <div className='msg-flex'>
           {messages &&
             messages.map((message) =>
               message.from === profileToChat ? (
-                <div className='msg from-msg'>
-                  {message.msg}
-                  {console.log(message.from)}
-                </div>
+                <div className='msg from-msg'>{message.msg}</div>
               ) : (
-                <div className='msg to-msg'>
-                  {message.msg}
-                  {console.log(message.from)}
-                </div>
+                <div className='msg to-msg'>{message.msg}</div>
               )
             )}
+          <div
+            style={{ float: "left", clear: "both" }}
+            ref={(el) => {
+              messagesEnd = el;
+            }}></div>
 
-          {!loading && messages.length === 0 && (
+          {/* {!loading && messages.length === 0 && (
             <Fragment>
               <div className='msg from-msg'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus blanditiis
@@ -82,7 +90,7 @@ const Chat = ({
                 doloribus.
               </div>
             </Fragment>
-          )}
+          )} */}
         </div>
 
         <div className='bottom-flex'>
@@ -99,9 +107,10 @@ const Chat = ({
                 value={formData}
                 onChange={(e) => setFormData(e.target.value)}
               />
-              <div className='pointer col s2'>
+
+              <button className='icon-save fabutton'>
                 <i className='fas fa-paper-plane fa-3x'></i>
-              </div>
+              </button>
             </div>
           </form>
         </div>
@@ -112,21 +121,25 @@ const Chat = ({
 
 Chat.propTypes = {
   auth: PropTypes.object.isRequired,
-  messages: PropTypes.array.isRequired,
   getMessages: PropTypes.func.isRequired,
   getProfile: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
   messages: state.profile.messages,
   auth: state.auth,
+  alert: state.alert,
 });
 
-export default connect(mapStateToProps, {
-  getMessages,
-  getProfile,
-  setLoading,
-  sendMessage,
-  clearMessages,
-})(Chat);
+export default withRouter(
+  connect(mapStateToProps, {
+    getMessages,
+    getProfile,
+    setLoading,
+    setAlert,
+    sendMessage,
+    clearMessages,
+  })(Chat)
+);

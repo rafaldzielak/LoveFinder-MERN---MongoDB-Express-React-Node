@@ -10,7 +10,7 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  profile: {messages: []},
+  profile: { messages: [] },
   profiles: [],
   loading: true,
   error: {},
@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_PROFILE:
-      return { ...state, profile: {...state.profile, ...payload}, loading: false };
+      return { ...state, profile: { ...state.profile, ...payload }, loading: false };
     case GET_PROFILES:
       return { ...state, profiles: payload, loading: false };
     case GET_FAVOURITE_PROFILES:
@@ -31,17 +31,18 @@ export default function (state = initialState, action) {
     case PROFILE_ERROR:
       return { ...state, error: payload, loading: false };
     case SET_LOADING:
-      return { ...state, loading: true };
+      return { ...state, loading: payload };
     case GET_MESSAGES:
       return {
         ...state,
         profile: { ...state.profile, messages: payload },
         // loading: false,
       };
-      case CLEAR_MESSAGES: return {
+    case CLEAR_MESSAGES:
+      return {
         ...state,
-        profile: {...state.profile, messages: []}
-      }
+        profile: { ...state.profile, messages: [] },
+      };
 
     default:
       return state;

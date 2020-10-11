@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { createProfile, getProfile } from "../../actions/profile";
+import { createProfile, getProfile, setLoading } from "../../actions/profile";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 import Alert from "../layout/Alert";
@@ -12,6 +12,7 @@ export const ProfileForm = ({
   history,
   auth,
   profile: { profile, loading },
+  setLoading,
 }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -23,32 +24,19 @@ export const ProfileForm = ({
     description: "",
   });
 
-  const questions = profile;
-
-  // getDerivedStateFromProps();
-
-  const {
-    name,
-    age,
-    sex,
-    preferenceMale,
-    preferenceFemale,
-    photo,
-    description,
-  } = formData;
+  const { name, age, sex, preferenceMale, preferenceFemale, photo, description } = formData;
 
   useEffect(() => {
     if (profile) {
       if (!profile.name) getProfile();
+      else setLoading(false);
       setFormData({
         ...formData,
         name: loading || !profile.name ? "" : profile.name,
         age: loading || !profile.age ? "" : profile.age,
         sex: loading || !profile.sex ? "" : profile.sex,
-        preferenceMale:
-          loading || !profile.preferenceMale ? "" : profile.preferenceMale,
-        preferenceFemale:
-          loading || !profile.preferenceFemale ? "" : profile.preferenceFemale,
+        preferenceMale: loading || !profile.preferenceMale ? "" : profile.preferenceMale,
+        preferenceFemale: loading || !profile.preferenceFemale ? "" : profile.preferenceFemale,
         photo: loading || !profile.photo ? "" : profile.photo,
         description: loading || !profile.description ? "" : profile.description,
       });
@@ -82,9 +70,6 @@ export const ProfileForm = ({
     setFormData({ ...formData, sex: e.target.value });
   };
 
-  // if (!loading && !auth.isAuthenticated) {
-  // return <Redirect to='/'></Redirect>;
-  // } else
   return (
     <Fragment>
       {loading ? (
@@ -132,27 +117,14 @@ export const ProfileForm = ({
               </div>
 
               <div className='row'>
-                <div
-                  className='input-field col s12'
-                  onChange={(e) => setGender(e)}
-                >
+                <div className='input-field col s12' onChange={(e) => setGender(e)}>
                   <p>
                     <label>
-                      <input
-                        name='sex'
-                        type='radio'
-                        value='male'
-                        checked={sex === "male"}
-                      />
+                      <input name='sex' type='radio' value='male' checked={sex === "male"} />
                       <span className='radio'>Male</span>
                     </label>
                     <label>
-                      <input
-                        name='sex'
-                        type='radio'
-                        value='female'
-                        checked={sex === "female"}
-                      />
+                      <input name='sex' type='radio' value='female' checked={sex === "female"} />
                       <span>Female</span>
                     </label>
                   </p>
@@ -212,8 +184,7 @@ export const ProfileForm = ({
                         className='materialize-textarea white-text'
                         name='description'
                         value={description}
-                        onChange={(e) => onChange(e)}
-                      ></textarea>
+                        onChange={(e) => onChange(e)}></textarea>
                       <label className='active' htmlFor='description'>
                         Description
                       </label>
@@ -223,11 +194,7 @@ export const ProfileForm = ({
               </div>
 
               {/* <input type='submit' className='btn btn-primary' value='Register' /> */}
-              <input
-                type='submit'
-                className='btn btn-large blue darken-3'
-                value='Submit'
-              />
+              <input type='submit' className='btn btn-large blue darken-3' value='Submit' />
             </form>
           </div>
         </Fragment>
@@ -252,4 +219,5 @@ export default connect(mapStateToProps, {
   createProfile,
   setAlert,
   getProfile,
+  setLoading,
 })(ProfileForm);
