@@ -14,7 +14,6 @@
 }
 
 /* UTILITY */
-
 .containerUser {
   color: #f4f4f4;
   margin: auto;
@@ -138,11 +137,11 @@ nav ul a {
 }
 
 .alert {
-  padding: 0.8rem;
+  padding: 1rem;
   margin: 1rem 0;
-  opacity: 0.9;
   background: #555555;
   color: #333;
+  border-radius: 10px;
 }
 .alert-danger {
   background: #d32f2f;
@@ -223,7 +222,11 @@ body {
 }
 #age {
   line-height: 2rem;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+}
+#name {
+  line-height: 2rem;
+  font-size: 1.2rem;
 }
 .about {
   line-height: 2rem;
@@ -235,6 +238,20 @@ body {
   line-height: 2rem;
   font-size: 1.1rem;
   text-align: justify;
+  min-height: 4rem;
+  max-height: 250px;
+  overflow: auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 footer {
@@ -398,8 +415,13 @@ nav a {
   padding-left: 2rem;
 }
 
+.brand-logo {
+  transition: color ease 0.5s;
+}
+
 .brand-logo:hover {
   cursor: pointer;
+  color: #dc143c;
 }
 
 h5 {

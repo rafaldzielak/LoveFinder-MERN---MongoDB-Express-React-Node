@@ -37,7 +37,6 @@ export const createProfile = ({
     await axios.post("/api/profile", body, config);
     dispatch(setAlert("Profile updated", "success"));
   } catch (error) {
-    console.log(error);
     const errors = error.response.data.errors;
     errors.map((error) => dispatch(setAlert(error.msg, "danger")));
   }
@@ -89,10 +88,7 @@ export const getFavProfiles = () => async (dispatch) => {
 
 export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
   try {
-    console.log("toUser: " + toUser);
     const res = await axios.get(`api/profile/message/${fromUser}/${toUser}`);
-    console.log("RES.data:");
-    console.log(res.data);
     dispatch({ type: GET_MESSAGES, payload: res.data.messages });
   } catch (error) {
     dispatch({
@@ -108,14 +104,9 @@ export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
 export const sendMessage = ({ msg, to }) => async (dispatch) => {
   try {
     const config = { headers: { "Content-Type": "application/json" } };
-    console.log(`api/profile/message/${to}`);
-    console.log(msg);
     const res = await axios.post(`api/profile/message/${to}`, { msg }, config);
-    console.log("SEND MESSAGE RES.data:");
-    console.log(res.data);
     dispatch({ type: SEND_MESSAGE, payload: res.data });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: PROFILE_ERROR,
       payload: {
@@ -128,13 +119,9 @@ export const sendMessage = ({ msg, to }) => async (dispatch) => {
 
 export const toggleFavourites = ({ profileIdToLike }) => async (dispatch) => {
   try {
-    console.log(`api/profile/fav/${profileIdToLike}`);
     const res = await axios.post(`api/profile/fav/${profileIdToLike}`);
-    console.log("SEND MESSAGE RES.data:");
-    console.log(res.data);
     // dispatch({ type: SEND_MESSAGE, payload: res.data });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: PROFILE_ERROR,
       payload: {

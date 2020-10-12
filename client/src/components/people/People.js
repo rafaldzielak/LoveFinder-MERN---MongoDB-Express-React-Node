@@ -9,6 +9,8 @@ import {
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
+import { setAlert } from "../../actions/alert";
+import Alert from "../../components/layout/Alert";
 
 export const People = ({
   profile: { profile, profiles, loading },
@@ -18,8 +20,11 @@ export const People = ({
   auth,
   clearMessages,
   setLoading,
+  setAlert,
 }) => {
   const [matchingProfiles, setMatchingProfiles] = useState([]);
+  const [isloadingPicture, setIsLoadingPicture] = useState(false);
+
   const history = useHistory();
   useEffect(() => {
     clearMessages();
@@ -58,6 +63,8 @@ export const People = ({
   const nextProfile = (profs) => {
     if (profs.length > profileNumber + 1) {
       setProfileNumber(++profileNumber);
+      const isLast = false;
+      return !isLast;
     }
   };
   const previousProfile = (profs) => {
@@ -73,11 +80,25 @@ export const People = ({
 
   const changeHeartIcon = () => {
     let heartIcon = document.querySelector(".fa-heart");
-    console.log(heartIcon);
     if (heartIcon.classList.contains("far")) heartIcon.className = "fas fa-heart fa-2x";
     else if (heartIcon.classList.contains("fas")) heartIcon.className = "far fa-heart fa-2x";
-    console.log(heartIcon);
   };
+
+  const changeFavourites = (profs) => {
+    if (!auth.user) {
+      setAlert("Log in To Add Profiles to Favourites", "danger");
+    } else {
+      toggleFavourites({ profileIdToLike: profs[profileNumber]._id });
+      changeHeartIcon();
+    }
+  };
+
+  var picture = document.getElementById("img-main");
+  if (picture) {
+    picture.onload = () => {
+      setIsLoadingPicture(false);
+    };
+  }
 
   const display = (profs) => (
     <div className='flex-rewind'>
@@ -87,7 +108,11 @@ export const People = ({
       <div className='inside'>
         <br />
         <div>
-          <img id='img-main' src={profs[profileNumber].photo} alt=''></img>
+          <img
+            id='img-main'
+            style={isloadingPicture ? { visibility: "hidden" } : { visibility: "visible" }}
+            src={profs[profileNumber].photo}
+            alt=''></img>
         </div>
 
         <p id='person'>
@@ -96,13 +121,6 @@ export const People = ({
         <p id='age'></p>
         <p className='about'>About me:</p>
         <p id='description'>{profs[profileNumber].description}</p>
-        <p id='description'>Gender: {profs[profileNumber].sex === "male" ? "male" : "female"}</p>
-        <p id='description'>
-          PreferenceMale: {profs[profileNumber].preferenceMale ? "true" : "false"}
-        </p>
-        <p id='description'>
-          PreferenceFemale: {profs[profileNumber].preferenceFemale ? "true" : "false"}
-        </p>
         <div className='img-relative'>
           <div className='flex-like-message'>
             <Link
@@ -116,12 +134,7 @@ export const People = ({
                 <span className='pointer select-disable'> Chat</span>
               </div>
             </Link>
-            <div
-              className='heart-icon '
-              onClick={(e) => {
-                toggleFavourites({ profileIdToLike: profs[profileNumber]._id });
-                changeHeartIcon();
-              }}>
+            <div className='heart-icon ' onClick={(e) => changeFavourites(profs)}>
               <i
                 className={
                   checkFavourites(profs[profileNumber])
@@ -133,7 +146,11 @@ export const People = ({
           </div>
         </div>
       </div>
-      <p id='next-btn' onClick={(e) => nextProfile(profs)}>
+      <p
+        id='next-btn'
+        onClick={(e) => {
+          nextProfile(profs) && setIsLoadingPicture(true);
+        }}>
         <i className='fas fa-chevron-right fa-5x'></i>
       </p>
     </div>
@@ -142,6 +159,7 @@ export const People = ({
   return (
     <Fragment>
       {loading && <div>LOADING</div>}
+      <Alert />
       {!loading && profiles.length > 0 && profileNumber >= 0 && (
         <Fragment>
           {auth.isAuthenticated && matchingProfiles.length > 0
@@ -160,6 +178,7 @@ People.propTypes = {
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   setLoading: PropTypes.func.isRequired,
+  setAlert: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -173,4 +192,5 @@ export default connect(mapStateToProps, {
   clearMessages,
   toggleFavourites,
   setLoading,
+  setAlert,
 })(People);

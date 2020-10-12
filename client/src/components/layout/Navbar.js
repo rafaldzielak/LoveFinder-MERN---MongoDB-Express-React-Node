@@ -13,7 +13,12 @@ export const Navbar = ({ logout, auth }) => {
         <Link to='/profile'>My Profile</Link>
       </li>
       <li>
-        <a href='#!' onClick={() => logout()}>
+        <a
+          href='#!'
+          onClick={() => {
+            logout();
+            window.location.href = "/";
+          }}>
           Logout
         </a>
       </li>

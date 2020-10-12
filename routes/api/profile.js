@@ -81,7 +81,6 @@ router.post(
         preferenceFemale,
         likedBy,
       } = req.body;
-      console.log(req.user.id);
       const userId = req.user.id;
       const profileFields = {};
       profileFields.user = userId;
@@ -103,7 +102,6 @@ router.post(
           { new: true }
         );
         Profile.findByIdAndUpdate();
-        console.log(profile);
         return res.json(profile);
       }
       profile = new Profile(profileFields);
@@ -138,10 +136,9 @@ router.delete("/", authMiddleware, async (req, res) => {
 router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
   try {
     const profileAuth = await Profile.findOne({ user: req.user.id });
-    // const profiletoChat = await Profile.findOne({ user: req.params.to_user });
-    console.log(`from_user: ${req.params.from_user}`);
-    console.log(`to_user: ${req.params.touser}`);
-    console.log(profileAuth.messages);
+    if (!profileAuth) {
+      return res.json([]);
+    }
     messages = profileAuth.messages.filter(
       (message) => message.to === req.params.touser || message.from === req.params.touser
     );
@@ -157,7 +154,6 @@ router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
 // @access  Private
 router.post("/message/:to_user", authMiddleware, async (req, res) => {
   try {
-    console.log(req.user.id);
     const profileAuth = await Profile.findOne({ user: req.user.id });
     if (profileAuth === null) {
       return res.json({ msg: "Profile not found" });
@@ -198,7 +194,6 @@ router.get("/fav", authMiddleware, async (req, res) => {
     const likedProfiles = await Profile.find({
       likedBy: req.user.id,
     }).select("-messages");
-    console.log(likedProfiles);
     res.json(likedProfiles);
   } catch (error) {
     console.error(error);
@@ -211,14 +206,10 @@ router.get("/fav", authMiddleware, async (req, res) => {
 // @access  Public
 router.post("/fav/:profileToLike", authMiddleware, async (req, res) => {
   try {
-    console.log(req.params.profileToLike);
-    console.log("IN likeProfile");
     const likedProfile = await Profile.findById(req.params.profileToLike).select("-messages");
     const index = likedProfile.likedBy.indexOf(req.user.id);
     if (index > -1) {
-      console.log("In favourites, removing");
       likedProfile.likedBy.splice(index, 1);
-      console.log(likedProfile.likedBy);
     } else likedProfile.likedBy.push(req.user.id);
     likedProfile.save();
     res.json(likedProfile);

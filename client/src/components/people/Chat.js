@@ -15,6 +15,8 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
     messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
+  let [showDefaultMessages, setShowDefaultMessages] = useState(false);
+
   useEffect(() => {
     if (auth.isAuthenticated && !loading) {
       getMessages({ fromUser: auth.user._id, toUser: profileToChat });
@@ -30,7 +32,15 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
   const [formData, setFormData] = useState("");
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (formData === "") {
+    if (!auth.user) {
+      setAlert("Log in to send/receive messages", "danger");
+      setAlert("This is an example of chat messages:", "success");
+      setShowDefaultMessages(true);
+    } else if (!profile.name) {
+      setAlert("Please create your profile to chat.", "danger");
+      setAlert("This is an example of chat messages:", "success");
+      setShowDefaultMessages(true);
+    } else if (formData === "") {
       setAlert("Type a message", "danger");
     } else {
       await sendMessage({ msg: formData, to: profileToChat });
@@ -54,7 +64,7 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
             )}
           <div style={{ float: "left", clear: "both" }} ref={(el) => (messagesEnd = el)}></div>
 
-          {/* {!loading && messages.length === 0 && (
+          {showDefaultMessages && !loading && (
             <Fragment>
               <div className='msg from-msg'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus blanditiis
@@ -72,7 +82,7 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
                 doloribus.
               </div>
             </Fragment>
-          )} */}
+          )}
         </div>
 
         <div className='bottom-flex'>
