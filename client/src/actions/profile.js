@@ -64,7 +64,7 @@ export const getProfiles = () => async (dispatch) => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: error.response.statusText,
+        msg: error.response,
         status: error.response.status,
       },
     });
@@ -89,6 +89,22 @@ export const getFavProfiles = () => async (dispatch) => {
 export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
   try {
     const res = await axios.get(`api/profile/message/${fromUser}/${toUser}`);
+    dispatch({ type: GET_MESSAGES, payload: res.data.messages });
+  } catch (error) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: error.response.statusText,
+        status: error.response.status,
+      },
+    });
+  }
+};
+
+export const getAllMessages = ({ fromUser }) => async (dispatch) => {
+  try {
+    const res = await axios.get(`api/profile/message/${fromUser}`);
+    console.log(res.data);
     dispatch({ type: GET_MESSAGES, payload: res.data.messages });
   } catch (error) {
     dispatch({

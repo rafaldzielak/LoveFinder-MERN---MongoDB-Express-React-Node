@@ -149,6 +149,23 @@ router.get("/message/:from_user/:touser", authMiddleware, async (req, res) => {
   }
 });
 
+// @route   GET api/profile/message/:from_user/:touser
+// @desc    get messages from user to specific user
+// @access  Private
+router.get("/message/:from_user", authMiddleware, async (req, res) => {
+  try {
+    const profileAuth = await Profile.findOne({ user: req.user.id });
+    if (!profileAuth) {
+      return res.json([]);
+    }
+    messages = profileAuth.messages;
+    res.json({ messages });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
 // @route   POST api/profile/message/:touser
 // @desc    Send message to specific user
 // @access  Private

@@ -160,13 +160,14 @@ nav ul a {
   position: relative;
   flex: 5;
   padding: 0px 2rem 2rem 2rem;
+  min-width: 600px;
   max-width: 600px;
   margin: auto;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   border: solid 2px;
   border-radius: 15px;
   background: #333;
-  min-height: 850px;
+  min-height: 830px;
   max-height: 900px;
 }
 .inside.msg-flex {
@@ -232,7 +233,8 @@ body {
   line-height: 2rem;
   font-size: 1.4rem;
   color: #1e90ff;
-  padding-bottom: 1rem;
+  margin: 0.4rem;
+  padding-bottom: 0.5rem;
 }
 #description {
   line-height: 2rem;
@@ -273,7 +275,7 @@ footer {
 
 #img-main {
   height: 400px;
-  max-width: 500px;
+  max-width: 490px;
   object-fit: contain;
   border-bottom: solid 2px #1e90ff;
 }
@@ -475,4 +477,67 @@ h5 {
   height: 200px;
   max-width: 300px;
   object-fit: contain;
+}
+
+.people-msg-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.msg-bar {
+  border: 1px white solid;
+  width: 300px;
+  margin-left: auto;
+  border-radius: 10px;
+  overflow: auto;
+  height: 850;
+}
+
+.msg-bar-item {
+  cursor: pointer;
+  display: grid;
+  grid-template-areas: "img-1 p-msg p-msg";
+  /* gap: 1rem; */
+  border-bottom: 2px #1565c0 solid;
+  height: 100px;
+  padding-top: 0.5rem;
+  overflow: hidden;
+  margin: 0.4rem;
+}
+
+.photo-small {
+  grid-area: img-1;
+}
+.msg-bar-item-name {
+  grid-area: name;
+}
+.p {
+  grid-area: p-msg;
+}
+
+.msg-bar-left {
+  border-radius: 10px;
+  border: 1px white solid;
+  width: 300px;
+  margin-right: auto;
+}
+
+.bor-bot {
+  border-bottom: 2px #1565c0 solid;
+}
+
+.photo-small {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 0.4rem;
+}
+
+.sidebar-message {
+  line-height: 1rem;
+  align-self: center;
+  text-align: justify;
+  text-justify: inter-word;
+  font-size: 0.9rem;
 }

@@ -57,6 +57,12 @@ export const People = ({
     }
   }, [loading, profile, profiles]);
   useEffect(() => () => setLoading(), [setLoading]);
+  useEffect(
+    () => () => {
+      clearMessages();
+    },
+    []
+  );
 
   let [profileNumber, setProfileNumber] = useState(0);
 
