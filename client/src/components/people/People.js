@@ -80,8 +80,14 @@ export const People = ({
   };
 
   const checkFavourites = (profile) => {
-    if (auth.user && profile.likedBy.includes(auth.user._id)) return true;
-    else return false;
+    // console.log("CheckFavo");
+    if (auth.user && profile.likedBy.includes(auth.user._id)) {
+      // console.log("CheckFavo: TRUE");
+      return true;
+    } else {
+      // console.log("CheckFavo: FALSE");
+      return false;
+    }
   };
 
   const changeHeartIcon = () => {
@@ -90,12 +96,12 @@ export const People = ({
     else if (heartIcon.classList.contains("fas")) heartIcon.className = "far fa-heart fa-2x";
   };
 
-  const changeFavourites = (profs) => {
+  const changeFavourites = async (profs) => {
     if (!auth.user) {
       setAlert("Log in To Add Profiles to Favourites", "danger");
     } else {
-      toggleFavourites({ profileIdToLike: profs[profileNumber]._id });
-      changeHeartIcon();
+      await toggleFavourites({ profileIdToLike: profs[profileNumber]._id });
+      getProfiles();
     }
   };
 
@@ -109,7 +115,7 @@ export const People = ({
   const display = (profs) => (
     <div className='flex-rewind'>
       <p id='previous-btn' onClick={(e) => previousProfile(profs)}>
-        <i className='fas fa-chevron-left fa-5x'></i>
+        <i className='fas fa-chevron-left fa-3x'></i>
       </p>
       <div className='inside'>
         <br />
@@ -151,21 +157,22 @@ export const People = ({
             </div>
           </div>
         </div>
+        
       </div>
       <p
         id='next-btn'
         onClick={(e) => {
           nextProfile(profs) && setIsLoadingPicture(true);
         }}>
-        <i className='fas fa-chevron-right fa-5x'></i>
+        <i className='fas fa-chevron-right fa-3x'></i>
       </p>
+      
     </div>
   );
 
   return (
     <Fragment>
       {loading && <div>LOADING</div>}
-      <Alert />
       {!loading && profiles.length > 0 && profileNumber >= 0 && (
         <Fragment>
           {auth.isAuthenticated && matchingProfiles.length > 0

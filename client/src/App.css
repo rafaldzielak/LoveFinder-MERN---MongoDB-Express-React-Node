@@ -154,6 +154,7 @@ nav ul a {
 
 .flex-rewind {
   display: flex;
+  margin-left: auto;
 }
 
 .inside {
@@ -258,6 +259,7 @@ input[type="number"] {
 
 footer {
   margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .icon-bottom {
@@ -485,7 +487,7 @@ h5 {
 }
 
 .msg-bar {
-  border: 1px white solid;
+  border: 2px white solid;
   width: 300px;
   margin-left: auto;
   border-radius: 10px;
@@ -517,9 +519,10 @@ h5 {
 
 .msg-bar-left {
   border-radius: 10px;
-  border: 1px white solid;
+  border: 2px white solid;
   width: 300px;
   margin-right: auto;
+  display: none;
 }
 
 .bor-bot {
