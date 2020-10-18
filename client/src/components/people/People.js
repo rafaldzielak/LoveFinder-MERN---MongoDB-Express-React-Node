@@ -130,7 +130,6 @@ export const People = ({
         <p id='person'>
           {profs[profileNumber].name} - {profs[profileNumber].age} Y/O
         </p>
-        <p id='age'></p>
         <p className='about'>About me:</p>
         <p id='description'>{profs[profileNumber].description}</p>
         <div className='img-relative'>
@@ -143,7 +142,7 @@ export const People = ({
               className='message-icon'>
               <div className='pointer' onClick={(e) => history.push("/chat")}>
                 <i className='far fa-comments fa-2x'></i>
-                <span className='pointer select-disable'> Chat</span>
+                {/* <span className='pointer select-disable'> Chat</span> */}
               </div>
             </Link>
             <div className='heart-icon ' onClick={(e) => changeFavourites(profs)}>
@@ -153,11 +152,10 @@ export const People = ({
                     ? "fas fa-heart fa-2x"
                     : "far fa-heart fa-2x"
                 }></i>
-              <span className='select-disable pointer'> Favourites</span>
+              {/* <span className='select-disable pointer'> Favourites</span> */}
             </div>
           </div>
         </div>
-        
       </div>
       <p
         id='next-btn'
@@ -166,7 +164,6 @@ export const People = ({
         }}>
         <i className='fas fa-chevron-right fa-3x'></i>
       </p>
-      
     </div>
   );
 

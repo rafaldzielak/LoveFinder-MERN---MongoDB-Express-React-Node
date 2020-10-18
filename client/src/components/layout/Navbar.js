@@ -7,13 +7,18 @@ export const Navbar = ({ logout, auth }) => {
   const authLinks = (
     <Fragment>
       <li>
-        <Link to='/favourites'>Favourites</Link>
+        <Link to='/favourites' className='nav-icon'>
+          Favourites
+        </Link>
       </li>
       <li>
-        <Link to='/profile'>My Profile</Link>
+        <Link to='/profile' className='nav-icon'>
+          My Profile
+        </Link>
       </li>
       <li>
         <a
+          className='nav-icon'
           href='#!'
           onClick={() => {
             logout();
@@ -28,10 +33,14 @@ export const Navbar = ({ logout, auth }) => {
   const guestLinks = (
     <Fragment>
       <li>
-        <Link to='/register'>Register</Link>
+        <Link to='/register' className='nav-icon'>
+          Register
+        </Link>
       </li>
       <li>
-        <Link to='/login'>Login</Link>
+        <Link to='/login' className='nav-icon'>
+          Login
+        </Link>
       </li>
     </Fragment>
   );
@@ -41,11 +50,11 @@ export const Navbar = ({ logout, auth }) => {
       <nav>
         <div className='nav-wrapper blue-grey darken-3'>
           <div className='left'>
-            <Link to='/' className='brand-logo'>
+            <Link to='/' className='brand-logo left'>
               LoveFinder
             </Link>
           </div>
-          <ul id='nav-mobile' className='right hide-on-med-and-down'>
+          <ul id='' className='right'>
             {!auth.loading && auth.isAuthenticated ? authLinks : guestLinks}
           </ul>
         </div>

@@ -104,14 +104,14 @@ export const getMessages = ({ fromUser, toUser }) => async (dispatch) => {
 export const getAllMessages = ({ fromUser }) => async (dispatch) => {
   try {
     const res = await axios.get(`api/profile/message/${fromUser}`);
-    console.log(res.data);
+    // console.log(res.data);
     dispatch({ type: GET_MESSAGES, payload: res.data.messages });
   } catch (error) {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: error.response.statusText,
-        status: error.response.status,
+        msg: error,
+        status: error,
       },
     });
   }

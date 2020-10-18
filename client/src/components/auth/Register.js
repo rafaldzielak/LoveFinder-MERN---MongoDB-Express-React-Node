@@ -29,7 +29,6 @@ export const Register = ({ registerUser, setAlert, history }) => {
   return (
     <Fragment>
       <br />
-      <br />
       <h2 className='border-bottom'>Register and find True Love</h2>
       <h5>Thousands of people are waiting for You!</h5>
       <Alert />
@@ -89,11 +88,7 @@ export const Register = ({ registerUser, setAlert, history }) => {
             </div>
           </div>
           {/* <input type='submit' className='btn btn-primary' value='Register' /> */}
-          <input
-            type='submit'
-            className='btn btn-large blue darken-3'
-            value='Register'
-          />
+          <input type='submit' className='btn btn-large blue darken-3' value='Register' />
         </form>
       </div>
     </Fragment>

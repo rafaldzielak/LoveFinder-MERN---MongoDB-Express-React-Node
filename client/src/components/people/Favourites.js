@@ -23,6 +23,7 @@ export const Favourites = ({
           {profiles &&
             profiles.map((profile) => (
               <Link
+                key={profile._id}
                 to={{
                   pathname: "/chat",
                   state: { profileToChat: profile.user },

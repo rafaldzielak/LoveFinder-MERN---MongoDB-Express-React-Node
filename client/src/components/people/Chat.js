@@ -2,12 +2,13 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getMessages, sendMessage } from "../../actions/profile.js";
 import Alert from "../layout/Alert";
+import SidebarMsg from "../people/SidebarMsg";
 import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) => {
-  const { profileToChat } = location.state;
+  const { profileToChat } = location.state || "no profileToChat";
   const { loading, messages } = profile;
 
   let messagesEnd = "";
@@ -55,11 +56,15 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
       <div className='inside msg-flex margin-1'>
         <div className='msg-flex'>
           {messages &&
-            messages.map((message) =>
+            messages.map((message, index) =>
               message.from === profileToChat ? (
-                <div className='msg from-msg'>{message.msg}</div>
+                <div className='msg from-msg' key={index}>
+                  {message.msg}
+                </div>
               ) : (
-                <div className='msg to-msg'>{message.msg}</div>
+                <div className='msg to-msg' key={index}>
+                  {message.msg}
+                </div>
               )
             )}
           <div style={{ float: "left", clear: "both" }} ref={(el) => (messagesEnd = el)}></div>
@@ -114,7 +119,6 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
 Chat.propTypes = {
   auth: PropTypes.object.isRequired,
   getMessages: PropTypes.func.isRequired,
-  getProfile: PropTypes.func.isRequired,
   setAlert: PropTypes.func.isRequired,
 };
 

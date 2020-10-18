@@ -76,9 +76,8 @@ export const ProfileForm = ({
       ) : (
         <Fragment>
           <br />
-          <br />
           <h2 className='border-bottom'>Create Your Profile</h2>
-          <h5>Nice description gives you better chance to find true love</h5>
+          <h5>Nice description gives you better chance to find true love!</h5>
           <Alert />
           <div className='row container'>
             <form className='col s12' onSubmit={(e) => onSubmit(e)}>

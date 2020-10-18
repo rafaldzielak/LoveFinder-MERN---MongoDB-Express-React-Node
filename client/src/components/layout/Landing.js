@@ -12,7 +12,7 @@ const Landing = () => {
       <Alert />
       <div className='containerUser'>
         <div className='people-msg-flex'>
-          <SidebarMsg2 />
+          {/* <SidebarMsg2 /> */}
           <People />
           <SidebarMsg />
         </div>

@@ -18,10 +18,11 @@ const SidebarMsg = ({ auth, profile, profiles, getAllMessages }) => {
   let peopleToChat = new Set();
   let allMessages = [];
   let i = 0;
-  profile.messages.forEach((message) => {
-    allMessages.unshift(message);
-  });
+
   if (profile.messages && profile.user) {
+    profile.messages.forEach((message) => {
+      allMessages.unshift(message);
+    });
     profile.messages.forEach((message) => {
       peopleToChat.add(message.to);
       peopleToChat.add(message.from);
@@ -41,21 +42,23 @@ const SidebarMsg = ({ auth, profile, profiles, getAllMessages }) => {
         i++;
         if (message.to === personToChat || message.from === personToChat) {
           peopleArray[peopleArray.length - 1].lastMessage = message.msg;
+          peopleArray[peopleArray.length - 1].lastMessageDate = message.date;
           lastMessages.push(message);
+
           break;
         }
       }
     });
-    console.log("Execution time: " + (Date.now() - start));
+    peopleArray.sort((a, b) => new Date(b.lastMessageDate) - new Date(a.lastMessageDate));
   }
 
   return (
-    <div className='msg-bar'>
-      <p className='about bor-bot'>Messages:</p>
-      {/* {console.log(profile.messages)} */}
-      {profile.messages &&
-        peopleArray.map((person) => (
+    <div className='msg-bar hide-on-med-and-down'>
+      <p className='about bor-bot'>Chat:</p>
+      {profile.messages && profile.messages.length > 0 ? (
+        peopleArray.map((person, index) => (
           <Link
+            key={index}
             to={{
               pathname: "/chat",
               state: { profileToChat: person.personToChat },
@@ -65,7 +68,10 @@ const SidebarMsg = ({ auth, profile, profiles, getAllMessages }) => {
               <p className='sidebar-message'>{person.lastMessage}</p>
             </div>
           </Link>
-        ))}
+        ))
+      ) : (
+        <div className='log-in-message'>Log in to see the chat.</div>
+      )}
     </div>
   );
 };

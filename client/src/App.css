@@ -154,7 +154,7 @@ nav ul a {
 
 .flex-rewind {
   display: flex;
-  margin-left: auto;
+  margin: auto;
 }
 
 .inside {
@@ -543,4 +543,227 @@ h5 {
   text-align: justify;
   text-justify: inter-word;
   font-size: 0.9rem;
+  width: fit-content;
+  height: 100%;
+  margin-bottom: 0.4rem;
+}
+
+.log-in-message {
+  font-size: 1.5rem;
+  margin-top: 8rem;
+}
+
+@media only screen and (max-width: 767px) {
+  .inside.msg-flex {
+    max-width: 100vh;
+  }
+  .inside {
+    min-width: 380px;
+    max-width: 75vw;
+    margin: auto;
+    padding: 0px 1rem 1rem 1rem;
+    min-height: 650px;
+    max-height: 900px;
+  }
+
+  #description {
+    line-height: 1.5rem;
+    font-size: 1rem;
+    text-align: justify;
+    min-height: 4rem;
+    max-height: 250px;
+    overflow: auto;
+  }
+  #person {
+    line-height: 3rem;
+    font-size: 1.5rem;
+  }
+  #img-main {
+    height: 270px;
+    max-width: 340px;
+    object-fit: contain;
+    border-bottom: solid 2px #1e90ff;
+  }
+  .img-relative .message-icon span {
+    font-size: 1.3rem;
+  }
+  .img-relative .heart-icon span {
+    font-size: 1.3rem;
+  }
+  .img-relative .heart-icon {
+    margin-bottom: 1.5rem;
+    margin-left: 1rem;
+    padding: 20px;
+    min-width: 160px;
+  }
+
+  .img-relative .message-icon {
+    margin-bottom: 1.5rem;
+    margin-right: 1rem;
+    padding: 20px;
+    min-width: 160px;
+  }
+  .nav-icon {
+    width: 100px;
+    font-size: 1rem;
+    text-align: center;
+  }
+  nav ul a {
+    padding: 0;
+  }
+  .flex-rewind {
+    width: 100vh;
+  }
+  .flex-rewind > p {
+    /* max-width: 10px; */
+    padding: 50px 0;
+  }
+  .liked-profiles {
+    margin-top: 1rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    display: grid;
+    /* grid-template-columns:: 200px auto 200px; */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media only screen and (max-width: 568px) {
+  .inside {
+    min-width: 270px;
+    max-width: 85vw;
+    margin: auto;
+    padding: 0;
+    min-height: 600px;
+    max-height: 900px;
+  }
+  .inside.msg-flex {
+    max-width: 100vh;
+  }
+
+  #description {
+    margin: 0.5rem;
+    line-height: 1.2rem;
+    font-size: 0.8rem;
+    text-align: justify;
+    min-height: 3rem;
+    max-height: 250px;
+    overflow: auto;
+  }
+  #person {
+    line-height: 2rem;
+    font-size: 1.3rem;
+  }
+  .about {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    margin: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+  #img-main {
+    height: 230px;
+    max-width: 100%;
+    object-fit: contain;
+    border-bottom: solid 2px #1e90ff;
+  }
+  .img-relative .message-icon span {
+    display: none;
+  }
+  .img-relative .heart-icon span {
+    display: none;
+  }
+
+  .img-relative .heart-icon {
+    margin-bottom: 0.5rem;
+    margin-left: 0rem;
+    border-radius: 10px;
+    min-width: 160px;
+    height: 50px;
+    padding: 10px;
+  }
+  .img-relative .heart-icon:hover {
+    box-shadow: rgb(220, 20, 60) 0px 0px 40px -2px;
+  }
+
+  .img-relative .message-icon {
+    align-self: center;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    margin-right: 0rem;
+    min-width: 160px;
+    height: 50px;
+    padding: 10px;
+  }
+  .img-relative .message-icon:hover {
+    box-shadow: rgb(30, 144, 255) 0px 0px 40px -2px;
+  }
+  .nav-icon {
+    width: 70px;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  nav ul a {
+    padding: 0;
+  }
+
+  .flex-rewind {
+    width: 100vh;
+  }
+  .flex-rewind > p {
+    /* max-width: 10px; */
+    padding: 30px 0;
+    margin: 0.2rem;
+    border-radius: 8px;
+    width: 40px;
+  }
+  .brand-logo.left {
+    font-size: 1.6rem;
+  }
+  .flex-like-message {
+    display: flex;
+    /* align-items: flex-end; */
+    flex-direction: column;
+    width: 100%;
+  }
+  .msg {
+    max-width: 100%;
+    padding: 10px;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+  }
+  #text {
+    max-width: 150px;
+  }
+  .msg-write input[type="text"] {
+    overflow: initial;
+    background-color: #cfd8dc;
+    border-radius: 5px;
+    min-width: 270px;
+    padding: 0 10px;
+    font-size: 0.9rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h5 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-bottom: 2rem;
+  }
+  .border-bottom {
+    margin-bottom: 1rem;
+  }
+  .liked-profiles {
+    margin-top: 1rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    display: grid;
+    /* grid-template-columns:: 200px auto 200px; */
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
 }
