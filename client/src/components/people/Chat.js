@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { getMessages, sendMessage } from "../../actions/profile.js";
 import Alert from "../layout/Alert";
@@ -6,10 +6,30 @@ import SidebarMsg from "../people/SidebarMsg";
 import { setAlert } from "../../actions/alert";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import socketIOClient from "socket.io-client";
 
 const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) => {
   const { profileToChat } = location.state || "no profileToChat";
   const { loading, messages } = profile;
+
+  const socket = useRef("");
+
+  useEffect(() => {
+    socket.current = socketIOClient();
+
+    socket.current.on("message", (message) => {
+      console.log(message);
+    });
+    socket.current.on("chatMessage", (message) => {
+      setTimeout(() => {
+        getMessages({ fromUser: auth.user._id, toUser: profileToChat });
+      }, 500);
+    });
+    if (auth.user) {
+      const fromUser = auth.user._id;
+      socket.current.emit("joinRoom", { fromUser, profileToChat });
+    }
+  }, []);
 
   let messagesEnd = "";
   const scrollToBottom = () => {
@@ -21,10 +41,9 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
   useEffect(() => {
     if (auth.isAuthenticated && !loading) {
       getMessages({ fromUser: auth.user._id, toUser: profileToChat });
-      // setInterval(() => getMessages({ fromUser: auth.user._id, toUser: profileToChat }), 10000);
     }
     scrollToBottom();
-  }, [auth.isAuthenticated, loading, profileToChat, getMessages]);
+  }, [auth.isAuthenticated, loading, profileToChat]);
 
   useEffect(() => {
     scrollToBottom();
@@ -44,6 +63,7 @@ const Chat = ({ location, auth, profile, getMessages, sendMessage, setAlert }) =
     } else if (formData === "") {
       setAlert("Type a message", "danger");
     } else {
+      socket.current.emit("chatMessage", formData); //emit message to server
       await sendMessage({ msg: formData, to: profileToChat });
       await getMessages({ fromUser: auth.user._id, toUser: profileToChat });
       setFormData("");

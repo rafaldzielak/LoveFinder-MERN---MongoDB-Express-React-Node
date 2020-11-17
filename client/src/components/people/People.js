@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
+
 import Alert from "../../components/layout/Alert";
 
 export const People = ({
@@ -65,6 +66,8 @@ export const People = ({
   );
 
   let [profileNumber, setProfileNumber] = useState(0);
+
+
 
   const nextProfile = (profs) => {
     if (profs.length > profileNumber + 1) {

@@ -1,6 +1,8 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const path = require("path");
+const http = require("http");
+const socketio = require("socket.io");
 
 const app = express();
 connectDB();
@@ -8,6 +10,26 @@ connectDB();
 // app.get("/", (req, res) => res.send("ITS WORKING"));
 
 app.use(express.json({ extended: false })); //allows to get data in request.body (in user.js)
+
+// socket.io
+app.use(express.static(path.join(__dirname, "public")));
+const server = http.createServer(app);
+const io = socketio(server);
+
+// run when client connects
+io.on("connection", (socket) => {
+  socket.on("joinRoom", ({ from, to }) => {
+    const roomName = from > to ? `${to}${from}` : `${from}${to}`;
+    socket.join(roomName);
+
+    socket.emit("message", "Welcome to Chat");
+    // Broadcast when a user connects
+    socket.broadcast.to(roomName).emit("message", "A user has joined the chat");
+    socket.on("chatMessage", (message) => {
+      socket.broadcast.to(roomName).emit("chatMessage", message);
+    });
+  });
+});
 
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
@@ -24,6 +46,4 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server started at port ${PORT}`);
-});
+server.listen(PORT, () => console.log(`Server started at port ${PORT}`));
