@@ -218,6 +218,81 @@ body {
   padding: 2rem;
 }
 
+.containerUser .showcase:before {
+  content: "";
+  z-index: -1;
+  /* margin: 0; */
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  /* opacity: 0.5; */
+  /* background-image: url("./img/showcase-background.jpg"); */
+
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)),
+    url(./img/showcase-background-2.jpg) no-repeat center center/cover !important;
+}
+.containerUser .showcase {
+  position: relative;
+  top: 3vh;
+  /* text-align: center; */
+  /* margin: auto; */
+  z-index: 1;
+  /* background: rgba(0, 0, 0, 0.45); */
+}
+
+.showcase-desc {
+  display: inline-block;
+  width: auto;
+  padding: 30px 100px;
+  /* margin: auto; */
+  /* background: rgba(0, 0, 0, 0.45); */
+}
+.showcase-desc h1 {
+  font-size: 8rem;
+  margin-top: 0;
+  transition: all 0.4s ease-in-out;
+  height: 120px;
+}
+
+.showcase-desc h1:hover {
+  font-size: 8.6rem;
+  margin-top: 0;
+}
+.showcase h3 {
+  color: white;
+}
+
+.showcase-desc.button {
+  margin-bottom: 20px;
+  padding: 30px 0;
+  cursor: pointer;
+  width: 600px;
+  margin-top: 20px;
+  font-size: 1.8rem;
+  background: rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease-in-out;
+}
+
+.showcase-desc.button:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.showcase-desc.button.small {
+  width: 280px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.showcase-desc a {
+  cursor: pointer;
+}
+
 #person {
   line-height: 4rem;
   font-size: 2rem;
@@ -627,6 +702,29 @@ h5 {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
+
+  .showcase-desc h1 {
+    font-size: 5rem;
+    height: 70px;
+  }
+  .showcase-desc h4 {
+    font-size: 2rem;
+  }
+
+  .showcase-desc h1:hover {
+    font-size: 5.5rem;
+  }
+
+  .showcase-desc.button {
+    width: 75vw;
+    margin-top: 5px;
+  }
+
+  .showcase-desc.button.small {
+    width: 75vw;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
 }
 
 @media only screen and (max-width: 568px) {
@@ -765,5 +863,24 @@ h5 {
     /* grid-template-columns:: 200px auto 200px; */
     grid-template-columns: repeat(1, 1fr);
     gap: 1rem;
+  }
+  .showcase-desc {
+    padding: 30px 0;
+  }
+  .showcase-desc h1 {
+    font-size: 4rem;
+    height: 60px;
+  }
+  .showcase-desc h4 {
+    font-size: 1.8rem;
+  }
+
+  .showcase-desc h1:hover {
+    font-size: 4.5rem;
+  }
+
+  .showcase-desc.button {
+    padding: 20px;
+    margin-top: 0;
   }
 }

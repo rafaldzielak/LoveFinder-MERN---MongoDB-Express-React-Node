@@ -67,8 +67,6 @@ export const People = ({
 
   let [profileNumber, setProfileNumber] = useState(0);
 
-
-
   const nextProfile = (profs) => {
     if (profs.length > profileNumber + 1) {
       setProfileNumber(++profileNumber);
